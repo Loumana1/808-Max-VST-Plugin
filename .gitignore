@@ -3,3 +3,20 @@
 # Design source files
 *.psd
 *.psb
+
+# HISE build artifacts
+HISE Project/**/Binaries/
+HISE Project/**/Builds/
+HISE Project/**/build/
+Exports/
+
+# Samples (optional)
+# HISE Project/**/Samples/
+# Audio Assets/
+
+# Design sources
+*.psd
+*.psb
+
+# macOS
+.DS_Store
