@@ -62,3 +62,12 @@ Examples with full commands
 - git add -A && git commit -m "feat(ui): add saturation panel knob and label in Interface.js" && git push
 - git add "HISE Project/808_max/Scripts/Saturator.js" && git commit -m "fix(dsp): correct drive range mapping in Saturator.js" && git push
 - git add Documentation/README.md && git commit -m "docs: add HISE build steps" && git push
+
+HISE-specific examples
+- git add "HISE Project/808_max/Scripts/Interface.js" && git commit -m "feat(ui): add glide toggle and layout tweaks in Interface.js" && git push
+- git add "HISE Project/808_max/Scripts/Saturator.js" && git commit -m "fix(dsp): clamp drive range and prevent NaNs in Saturator.js" && git push
+- git add "HISE Project/808_max/Scripts/Panels.js" && git commit -m "refactor(ui): extract waveform panel into separate function" && git push
+- git add "HISE Project/808_max/XmlPresetBackups/808MaxNewInterface.xml" && git commit -m "chore(preset): update default UI state and control positions" && git push
+- git add "HISE Project/808_max/project_info.xml" && git commit -m "chore(project): bump version to 0.1.1" && git push
+- git add "HISE Project/808_max/Scripts/ScriptProcessors/808MaxNewInterface/Interface.js" && git commit -m "feat(ui): add multiband compressor section" && git push
+- git add generate_samplemaps.sh && git commit -m "chore(samples): improve samplemap generation and naming rules" && git push
