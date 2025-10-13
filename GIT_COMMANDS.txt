@@ -44,3 +44,21 @@ Stash (save work without committing)
 Helpful aliases (optional)
 - git config --global alias.lg "log --oneline --graph --decorate --all"
 - git config --global alias.wip "!git add -A && git commit -m 'chore: wip' && git push"
+
+Commit message examples (Conventional Commits)
+- chore: update .gitignore for HISE builds and macOS files
+- feat(ui): add saturation panel knob and label in Interface.js
+- feat(samples): add 808 - sh one-shots and regenerate samplemaps
+- fix(dsp): correct drive range mapping in Saturator.js
+- fix(ui): align waveform view margins in Panels.js
+- refactor(scripts): split Preset.js into smaller modules
+- docs: add HISE build steps to Documentation/README.md
+- perf(scriptnode): optimize filter node coefficients
+- test: add preset loading smoke test instructions to GIT_COMMANDS.txt
+- build(mac): update Xcode project settings (do not commit Binaries)
+- revert: revert "feat(ui): add saturation panel knob" (breaks layout)
+
+Examples with full commands
+- git add -A && git commit -m "feat(ui): add saturation panel knob and label in Interface.js" && git push
+- git add "HISE Project/808_max/Scripts/Saturator.js" && git commit -m "fix(dsp): correct drive range mapping in Saturator.js" && git push
+- git add Documentation/README.md && git commit -m "docs: add HISE build steps" && git push
