@@ -1,0 +1,46 @@
+Git quick commands
+
+Main commits
+- git status
+- git add -A
+- git commit -m "feat: message"
+- git push
+
+Branching
+- git branch                        # list branches
+- git switch -c feature/name        # create & switch
+- git switch main                   # switch to main
+- git merge feature/name            # merge into current
+- git branch -d feature/name        # delete local
+- git push -u origin feature/name   # push new branch
+- git push origin --delete feature/name   # delete remote
+
+Testing changes locally
+- git log --oneline --graph --decorate --all
+- git diff                          # unstaged changes
+- git diff --staged                 # staged changes
+- git show <commit>
+- git restore <file>                # discard unstaged
+- git restore --staged <file>       # unstage
+
+Remote & sync
+- git remote -v
+- git fetch --all --prune
+- git pull --rebase                 # update current branch
+- git push -u origin main           # first push sets upstream
+
+Tags (optional)
+- git tag v0.1.0
+- git push origin v0.1.0
+
+Fix last commit
+- git commit --amend
+
+Stash (save work without committing)
+- git stash push -m "wip"
+- git stash list
+- git stash pop
+
+Helpful aliases (optional)
+- git config --global alias.lg "log --oneline --graph --decorate --all"
+- git config --global alias.wip "!git add -A && git commit -m 'chore: wip' && git push"
