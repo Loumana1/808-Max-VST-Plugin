@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Network ID="scriptfx1" Version="0.0.0">
+  <Node FactoryPath="container.chain" ID="scriptfx1" Bypassed="0" Name="MultibandComp"
+        ShowParameters="1">
+    <Nodes>
+      <Node ID="fix64_block" FactoryPath="container.fix64_block" Bypassed="0"
+            Name="fix64_block">
+        <Nodes>
+          <Node ID="split1" FactoryPath="container.split" Bypassed="0" Name="split1">
+            <Nodes>
+              <Node ID="chain1" FactoryPath="container.chain" Bypassed="0" Name="chain1"
+                    ShowParameters="1">
+                <Nodes>
+                  <Node ID="chain2" FactoryPath="container.chain" Bypassed="0" Name="chain2">
+                    <Nodes>
+                      <Node ID="pma_unscaled" FactoryPath="control.pma_unscaled" Bypassed="0"
+                            Name="pma_unscaled">
+                        <ModulationTargets>
+                          <Connection NodeId="svf_eq1" ParameterId="Gain"/>
+                        </ModulationTargets>
+                        <Parameters>
+                          <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" Automated="1"/>
+                          <Parameter MinValue="-1.0" MaxValue="1.0" ID="Multiply" Value="-0.04646875000000006"
+                                     DefaultValue="1.0"/>
+                          <Parameter MinValue="-1.0" MaxValue="1.0" ID="Add" Value="0.008312499999999945"
+                                     DefaultValue="0.0"/>
+                        </Parameters>
+                      </Node>
+                      <Node ID="svf_eq1" FactoryPath="filters.svf_eq" Bypassed="0" Name="svf_eq1">
+                        <ComplexData>
+                          <Filters>
+                            <Filter Index="0"/>
+                          </Filters>
+                        </ComplexData>
+                        <Parameters>
+                          <Parameter MinValue="20.0" MaxValue="20000.0" StepSize="0.1" SkewFactor="0.2299045622348785"
+                                     ID="Frequency" DefaultValue="1000.0" Automated="1"/>
+                          <Parameter MinValue="0.300000011920929" MaxValue="9.899999618530273" SkewFactor="0.2647178173065186"
+                                     ID="Q" DefaultValue="1.0" Automated="1"/>
+                          <Parameter MinValue="0.0" MaxValue="1.0" ID="Gain" Automated="1"/>
+                          <Parameter MinValue="0.0" MaxValue="1.0" SkewFactor="0.3010300099849701"
+                                     ID="Smoothing" Value="0.1001873163090795" DefaultValue="0.009999999776482582"/>
+                          <Parameter MinValue="0.0" MaxValue="4.0" StepSize="1.0" ID="Mode" Automated="1"/>
+                          <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1.0" ID="Enabled" Value="1.0"/>
+                        </Parameters>
+                      </Node>
+                    </Nodes>
+                    <Parameters/>
+                  </Node>
+                </Nodes>
+                <Parameters/>
+              </Node>
+              <Node ID="chain" FactoryPath="container.chain" Bypassed="0" Name="chain">
+                <Nodes>
+                  <Node ID="updown_comp1" FactoryPath="dynamics.updown_comp" Bypassed="0"
+                        Name="updown_comp1">
+                    <ModulationTargets>
+                      <Connection NodeId="pma_unscaled" ParameterId="Value"/>
+                    </ModulationTargets>
+                    <ComplexData>
+                      <DisplayBuffers>
+                        <DisplayBuffer Index="-1"/>
+                      </DisplayBuffers>
+                    </ComplexData>
+                    <Parameters>
+                      <Parameter MinValue="-100.0" MaxValue="0.0" SkewFactor="3.492788553237915"
+                                 ID="LowThreshold" DefaultValue="-100.0" Automated="1"/>
+                      <Parameter MinValue="0.2" MaxValue="100.0" SkewFactor="0.1436184048652649"
+                                 ID="LowRatio" DefaultValue="1.0" Automated="1"/>
+                      <Parameter MinValue="-100.0" MaxValue="0.0" SkewFactor="11.20230579376221"
+                                 ID="HighThreshold" Automated="1"/>
+                      <Parameter MinValue="0.2000000029802322" MaxValue="100.0" SkewFactor="0.1436184048652649"
+                                 ID="HighRatio" DefaultValue="1.0" Automated="1"/>
+                      <Parameter MinValue="0.0" MaxValue="0.300000011920929" SkewFactor="0.9999999403953552"
+                                 ID="Knee" Value="0.1612711736313069" DefaultValue="0.1500000059604645"/>
+                      <Parameter MinValue="0.0" MaxValue="1000.0" SkewFactor="0.2313782125711441"
+                                 ID="Attack" DefaultValue="50.0" Automated="1"/>
+                      <Parameter MinValue="0.0" MaxValue="1000.0" SkewFactor="0.2313782125711441"
+                                 ID="Release" DefaultValue="50.0" Automated="1"/>
+                      <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1.0" ID="RMS" Value="1.0"/>
+                    </Parameters>
+                  </Node>
+                  <Node ID="clear" FactoryPath="math.clear" Bypassed="0" Name="clear">
+                    <Parameters>
+                      <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" Value="0.0"/>
+                    </Parameters>
+                  </Node>
+                </Nodes>
+                <Parameters/>
+              </Node>
+            </Nodes>
+            <Parameters/>
+          </Node>
+        </Nodes>
+        <Parameters/>
+      </Node>
+    </Nodes>
+    <Parameters>
+      <Parameter ID="Release" MinValue="0.0" MaxValue="1000.0" Value="49.0" DefaultValue="1.0"
+                 SkewFactor="0.2313782125711441">
+        <Connections>
+          <Connection NodeId="updown_comp1" ParameterId="Release"/>
+        </Connections>
+      </Parameter>
+      <Parameter ID="Frequency" MinValue="20.0" MaxValue="20000.0" StepSize="0.1"
+                 SkewFactor="0.2299045622348785" Value="681.0" DefaultValue="1.0">
+        <Connections>
+          <Connection NodeId="svf_eq1" ParameterId="Frequency"/>
+        </Connections>
+      </Parameter>
+      <Parameter ID="Q" MinValue="0.300000011920929" MaxValue="9.899999618530273"
+                 SkewFactor="0.2647178173065186" Value="0.5" DefaultValue="1.0">
+        <Connections>
+          <Connection NodeId="svf_eq1" ParameterId="Q"/>
+        </Connections>
+      </Parameter>
+      <Parameter ID="Mode" MinValue="0.0" MaxValue="4.0" StepSize="1.0" Value="3.0"
+                 DefaultValue="1.0">
+        <Connections>
+          <Connection NodeId="svf_eq1" ParameterId="Mode"/>
+        </Connections>
+      </Parameter>
+      <Parameter ID="Low threshhold" MinValue="-100.0" MaxValue="0.0" SkewFactor="3.492788553237915"
+                 Value="-100.0" DefaultValue="-10.0">
+        <Connections>
+          <Connection NodeId="updown_comp1" ParameterId="LowThreshold"/>
+        </Connections>
+      </Parameter>
+      <Parameter ID="Attack" MinValue="0.0" MaxValue="1000.0" SkewFactor="0.2313782125711441"
+                 Value="76.0" DefaultValue="1.0">
+        <Connections>
+          <Connection NodeId="updown_comp1" ParameterId="Attack"/>
+        </Connections>
+      </Parameter>
+      <Parameter ID="Low Ratio" MinValue="0.2" MaxValue="100.0" Value="0.2" DefaultValue="1.0"
+                 SkewFactor="0.1436184048652649">
+        <Connections>
+          <Connection NodeId="updown_comp1" ParameterId="LowRatio"/>
+        </Connections>
+      </Parameter>
+      <Parameter ID="Hi Ratio" MinValue="0.2000000029802322" MaxValue="100.0"
+                 SkewFactor="0.1436184048652649" Value="50.81568980201271" DefaultValue="1.0">
+        <Connections>
+          <Connection NodeId="updown_comp1" ParameterId="HighRatio"/>
+        </Connections>
+      </Parameter>
+      <Parameter ID="High threshold" MinValue="-100.0" MaxValue="0.0" SkewFactor="11.20230579376221"
+                 Value="-7.861587597416531" DefaultValue="1.0">
+        <Connections>
+          <Connection NodeId="updown_comp1" ParameterId="HighThreshold"/>
+        </Connections>
+      </Parameter>
+      <Parameter MinValue="0.0" MaxValue="1.0" ID="on of" Value="1.0" DefaultValue="0.0">
+        <Connections/>
+      </Parameter>
+    </Parameters>
+  </Node>
+  <Bookmarks>
+    <Bookmark ID="Bookmark" Value="scriptfx1"/>
+  </Bookmarks>
+</Network>

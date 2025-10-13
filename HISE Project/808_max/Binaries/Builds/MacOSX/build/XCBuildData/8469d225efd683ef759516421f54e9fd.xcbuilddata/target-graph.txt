@@ -1,0 +1,7 @@
+Target dependency graph (3 targets)
+Target '808_max - All' in project '808_max'
+➜ Explicit dependency on target '808_max - VST' in project '808_max'
+➜ Explicit dependency on target '808_max - Shared Code' in project '808_max'
+Target '808_max - VST' in project '808_max'
+➜ Explicit dependency on target '808_max - Shared Code' in project '808_max'
+Target '808_max - Shared Code' in project '808_max' (no dependencies)

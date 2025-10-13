@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Network ID="Shaper" AllowCompilation="1" Version="0.0.0">
+  <Node FactoryPath="container.chain" ID="Shaper" Bypassed="0" Name="Shaper"
+        ShowParameters="1">
+    <Nodes>
+      <Node ID="split" FactoryPath="container.split" Bypassed="0" Name="split">
+        <Nodes>
+          <Node ID="fix64_block" FactoryPath="container.fix64_block" Bypassed="0"
+                Name="fix64_block">
+            <Nodes>
+              <Node ID="chain" FactoryPath="container.chain" Bypassed="0" Name="chain">
+                <Nodes>
+                  <Node ID="snex_shaper" FactoryPath="core.snex_shaper" Bypassed="0"
+                        Name="snex_shaper">
+                    <Properties>
+                      <Property ID="ClassId" Value="snex_shaper"/>
+                    </Properties>
+                    <ComplexData>
+                      <Tables/>
+                      <SliderPacks/>
+                      <AudioFiles/>
+                      <Filters/>
+                      <DisplayBuffers>
+                        <DisplayBuffer Index="-1" EmbeddedData=""/>
+                      </DisplayBuffers>
+                    </ComplexData>
+                    <Parameters>
+                      <Parameter MinValue="0.0" MaxValue="1.0" ID="curve" DefaultValue="0.0" Automated="1"/>
+                      <Parameter MinValue="0.0" MaxValue="1.0" ID="h" Value="0.38565625" DefaultValue="0.0"/>
+                    </Parameters>
+                  </Node>
+                </Nodes>
+                <Parameters/>
+              </Node>
+            </Nodes>
+            <Parameters/>
+          </Node>
+          <Node ID="chain1" FactoryPath="container.chain" Bypassed="0" Name="chain1">
+            <Nodes>
+              <Node ID="snex_shaper1" FactoryPath="core.snex_shaper" Bypassed="0"
+                    Name="overdrive">
+                <Properties>
+                  <Property ID="ClassId" Value="Overdrive"/>
+                </Properties>
+                <ComplexData>
+                  <Tables/>
+                  <SliderPacks/>
+                  <AudioFiles/>
+                  <Filters/>
+                  <DisplayBuffers>
+                    <DisplayBuffer Index="-1" EmbeddedData=""/>
+                  </DisplayBuffers>
+                </ComplexData>
+                <Parameters>
+                  <Parameter MinValue="0.0" MaxValue="1.0" ID="drive" Value="0.0"/>
+                </Parameters>
+              </Node>
+            </Nodes>
+            <Parameters/>
+          </Node>
+        </Nodes>
+        <Parameters/>
+      </Node>
+    </Nodes>
+    <Parameters>
+      <Parameter ID="saturation" MinValue="0.0" MaxValue="1.0" Value="0.0" DefaultValue="1.0">
+        <Connections>
+          <Connection NodeId="snex_shaper" ParameterId="curve"/>
+        </Connections>
+      </Parameter>
+    </Parameters>
+  </Node>
+</Network>

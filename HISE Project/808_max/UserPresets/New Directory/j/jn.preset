@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Preset Version="1.0.0">
+  <Content Processor="Interface">
+    <Control type="ScriptButton" id="btnSamples" value="0"/>
+    <Control type="ScriptButton" id="btnMain" value="1"/>
+    <Control type="ScriptSlider" id="knbGain" value="0.699999988079071"/>
+    <Control type="ScriptSlider" id="knbPresetWidth" value="55.29999923706055"/>
+    <Control type="ScriptButton" id="btnEffectViewMultiBand" value="0"/>
+    <Control type="ScriptButton" id="btnONFilter" value="1.0"/>
+    <Control type="ScriptButton" id="btnONLfo" value="0.0"/>
+    <Control type="ScriptButton" id="btnONSaturator" value="0.0"/>
+    <Control type="ScriptButton" id="btnEffectViewSaturator" value="0"/>
+    <Control type="ScriptButton" id="btnEffectViewLFO" value="0"/>
+    <Control type="ScriptButton" id="btnEffectViewFilter " value="1"/>
+    <Control type="ScriptButton" id="btnONMultiBand" value="0.0"/>
+    <Control type="ScriptSlider" id="knbFltFreq" value="500.0"/>
+    <Control type="ScriptSlider" id="knbFltEnvelopeAttack" value="3.0"/>
+    <Control type="ScriptSlider" id="knbFltFreq1" value="20.0"/>
+    <Control type="ScriptButton" id="btnFltrEnvelope" value="0.0"/>
+    <Control type="ScriptButton" id="btnFltrHighPass" value="1.0"/>
+    <Control type="ScriptSlider" id="knbSaturator" value="0.1099999994039536"/>
+    <Control type="ScriptComboBox" id="cmbSaturation" value="1.0"/>
+    <Control type="ScriptButton" id="btnLFOSync" value="1.0"/>
+    <Control type="ScriptComboBox" id="cmbLfoWaveform" value="1.0"/>
+    <Control type="ScriptComboBox" id="cmbLfoWaveform1" value="1.0"/>
+    <Control type="ScriptButton" id="btnWaveformViewSample" value="0"/>
+    <Control type="ScriptButton" id="btnWaveformViewSphere" value="0"/>
+    <Control type="ScriptButton" id="btnWaveformViewAnalyser" value="1"/>
+    <Control type="ScriptButton" id="btnWaveformPitchDown" value="0"/>
+    <Control type="ScriptButton" id="btnWaveformPitchup" value="0"/>
+    <Control type="ScriptButton" id="btnWaveformPlaybackReverse" value="0.0"/>
+    <Control type="ScriptSlider" id="knbAhdsr1a" value="0.0"/>
+    <Control type="ScriptSlider" id="knbAhdsr3d" value="1604.0"/>
+    <Control type="ScriptSlider" id="knbAhdsr4s" value="0.0"/>
+    <Control type="ScriptSlider" id="knbAhdsr5r" value="0.0"/>
+    <Control type="ScriptAudioWaveform" id="AudioWaveform" value="0.0"/>
+  </Content>
+  <MidiAutomation/>
+  <MPEData Enabled="0"/>
+</Preset>

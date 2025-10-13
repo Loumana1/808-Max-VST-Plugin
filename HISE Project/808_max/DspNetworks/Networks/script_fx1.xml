@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Network ID="script_fx1" AllowCompilation="1" Version="0.0.0">
+  <Node FactoryPath="container.chain" ID="script_fx1" Bypassed="0" Name="script_fx1">
+    <Nodes>
+      <Node ID="snex_shaper" FactoryPath="core.snex_shaper" Bypassed="0"
+            Name="snex_shaper">
+        <Properties>
+          <Property ID="ClassId" Value="saturator"/>
+        </Properties>
+        <ComplexData>
+          <Tables/>
+          <SliderPacks/>
+          <AudioFiles>
+            <AudioFile Index="-1" EmbeddedData=""/>
+          </AudioFiles>
+          <Filters/>
+          <DisplayBuffers>
+            <DisplayBuffer Index="-1" EmbeddedData=""/>
+          </DisplayBuffers>
+        </ComplexData>
+        <Parameters>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Saturation" Value="0.4772499389648437"
+                     DefaultValue="0.4779062499999999"/>
+        </Parameters>
+      </Node>
+    </Nodes>
+    <Parameters/>
+  </Node>
+</Network>

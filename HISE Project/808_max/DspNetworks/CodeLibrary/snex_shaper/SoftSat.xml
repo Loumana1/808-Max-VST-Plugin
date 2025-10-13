@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Parameters>
+  <Parameter MinValue="-0.02127659320831299" MaxValue="1.0" StepSize="0.0"
+             SkewFactor="0.8288406729698181" ID="dd" Value="0.0" DefaultValue="0.0"/>
+</Parameters>

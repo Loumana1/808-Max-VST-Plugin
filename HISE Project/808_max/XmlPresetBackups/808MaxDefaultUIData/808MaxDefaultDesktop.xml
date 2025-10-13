@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ContentProperties DeviceType="Desktop">
+  <Component type="ScriptPanel" id="pnlOutput" x="0.0" y="0.0" width="800.0"
+             height="50.0">
+    <Component type="ScriptButton" id="btnSamples" x="270.0" y="10.0" text="Samples"
+               width="30.0" height="30.0" parentComponent="pnlOutput"/>
+    <Component type="ScriptButton" id="btnMain" x="10.0" y="10.0" text="Main"
+               width="80.0" isPluginParameter="1" height="30.0" parentComponent="pnlOutput"/>
+    <Component type="ScriptLabel" id="lblTitleWIDTH" x="730.0" y="30.0" width="60.0"
+               height="20.0" parentComponent="pnlOutput" text="+ wide" textColour="4289769648"
+               fontStyle="bold" fontSize="11"/>
+    <Component type="ScriptSlider" id="knbGain" x="510.0" y="10.0" width="30.0"
+               height="30.0" parentComponent="pnlOutput" suffix="%" middlePosition="0.5"
+               showValuePopup="Below" processorId="Sampler1" parameterId="Gain"
+               stepSize="0.1000000014901161" mode="Decibel" text="big"/>
+    <Component type="ScriptLabel" id="lblTitleGAIN" x="540.0" y="30.0" width="50.0"
+               height="20.0" parentComponent="pnlOutput" text="Gain" textColour="4289769648"
+               fontStyle="bold" fontSize="11"/>
+    <Component type="ScriptSlider" id="knbPresetWidth" x="700.0" y="0.0" middlePosition="100.0"
+               max="150.0" width="30.0" height="30.0" processorId="Stereo FX1"
+               parameterId="Width" defaultValue="100.0" parentComponent="pnlOutput"
+               showValuePopup="Below" stepSize="0.1000000014901161" text="big"/>
+    <Component type="ScriptComboBox" id="cmbSampleMap" x="300.0" y="10.0" max="44"
+               processorId="" parentComponent="pnlOutput" items="808 - 360 Spinz&#10;808 - APG&#10;808 - Baby&#10;808 - Bass 13&#10;808 - Bass 6&#10;808 - Bass 7&#10;808 - Beej&#10;808 - Clean 2&#10;808 - Everybody Got This&#10;808 - Geek&#10;808 - Ghosted&#10;808 - Guitar Hero&#10;808 - Life&#10;808 - Lil Torrent&#10;808 - LogDrum 2&#10;808 - LogDrum 9&#10;808 - Long D_ck&#10;808 - Lovin&#10;808 - Mellow&#10;808 - Oh Lawd&#10;808 - Opium&#10;808 - Sanctuary&#10;808 - Sway Trill&#10;808 - Vendetta&#10;808 - Zombie&#10;Synth bass - Deep Bass Guitar&#10;Synth bass - Memphis Moog 3&#10;Synth bass - Memphis Moog 5&#10;Synth bass - Popstar&#10;Synth bass - Reese's Pieces&#10;Synth bass - Skrillex&#10;Synth bass - [E7] New Detroit&#10;Synth bass - [Hydrasynth] Ambient&#10;Synth bass - [Hydrasynth] Analog Asf&#10;Synth bass - [Hydrasynth] Plucky&#10;Synth bass - [Hydrasynth] Red Bottoms&#10;Synth bass - [Moog One] Concrete&#10;Synth bass - [Moog One] Crazy&#10;Synth bass - [Moog One] Entry&#10;Synth bass - [Moog One] Object&#10;Synth bass - [Moog One] Real Analog&#10;Synth bass - [Moog One] XXX&#10;Synth bass - [OB 6] Trim&#10;Synth bass - [Origin] Drake"
+               itemColour="1727987712" width="200.0" saveInPreset="0" height="30.0"
+               bgColour="4278190080"/>
+  </Component>
+  <Component type="ScriptPanel" id="pnlSamples" x="0.0" y="50.0" width="800.0"
+             height="600.0" bgColour="4278190080" itemColour="4278190080"
+             itemColour2="3456040960" text="Samples" locked="1" visible="0">
+    <Component type="ScriptFloatingTile" id="FloatingTile1" x="90.0" y="60.0"
+               ContentType="PresetBrowser" bgColour="4143972352" itemColour="4287692721"
+               itemColour2="0" Data="{&#10;  &quot;ShowSaveButton&quot;: true,&#10;  &quot;ShowExpansionsAsColumn&quot;: false,&#10;  &quot;ShowFolderButton&quot;: true,&#10;  &quot;ShowNotes&quot;: false,&#10;  &quot;ShowEditButtons&quot;: true,&#10;  &quot;EditButtonOffset&quot;: 10,&#10;  &quot;ShowAddButton&quot;: true,&#10;  &quot;ShowRenameButton&quot;: true,&#10;  &quot;ShowDeleteButton&quot;: true,&#10;  &quot;ShowSearchBar&quot;: true,&#10;  &quot;ShowFavoriteIcon&quot;: true,&#10;  &quot;FullPathFavorites&quot;: false,&#10;  &quot;ButtonsInsideBorder&quot;: false,&#10;  &quot;NumColumns&quot;: 2,&#10;  &quot;ColumnWidthRatio&quot;: [&#10;    0.3333333333333333,&#10;    0.3333333333333333,&#10;    0.3333333333333333&#10;  ],&#10;  &quot;ListAreaOffset&quot;: [&#10;    0,&#10;    0,&#10;    0,&#10;    0&#10;  ],&#10;  &quot;ColumnRowPadding&quot;: [&#10;    0,&#10;    0,&#10;    0,&#10;    0&#10;  ],&#10;  &quot;SearchBarBounds&quot;: [],&#10;  &quot;MoreButtonBounds&quot;: [],&#10;  &quot;SaveButtonBounds&quot;: [],&#10;  &quot;FavoriteButtonBounds&quot;: []&#10;}"
+               width="640.0" height="450.0" parentComponent="pnlSamples"/>
+    <Component type="ScriptImage" id="imgTiltle" x="170.0" y="10.0" parentComponent="pnlSamples"
+               width="250.0" height="100.0" fileName="{PROJECT_FOLDER}7decdbb3-ed18-4226-b730-3499ebea34a1.jpeg"
+               offset="65.0" visible="0"/>
+  </Component>
+  <Component type="ScriptPanel" id="pnlMain" x="0.0" y="50.0" width="800.0"
+             height="540.0" text="Main">
+    <Component type="ScriptPanel" id="pnlWaveform" x="200.0" y="0.0" width="400.0"
+               height="250.0" parentComponent="pnlMain">
+      <Component type="ScriptAudioWaveform" id="AudioWaveform3" x="50.0" y="40.0"
+                 processorId="Sampler1" width="310.0" height="140.0" parentComponent="pnlWaveform"
+                 itemColour2="4283566345" bgColour="4278190080" textColour="4278584067"
+                 itemColour="3428777984" showLines="1"/>
+      <Component type="ScriptPanel" id="pnlWaveformType" x="100.0" y="200.0" width="200.0"
+                 height="40.0" parentComponent="pnlWaveform"/>
+      <Component type="ScriptButton" id="btnWaveformPlaybackReverse" x="100.0"
+                 y="200.0" width="200.0" height="40.0" parentComponent="pnlWaveform"
+                 text="Reverse" itemColour2="-65536" isPluginParameter="1" processorId="Sampler1"
+                 parameterId="Reversed"/>
+    </Component>
+    <Component type="ScriptPanel" id="pnlSaturator" x="0.0" y="250.0" width="200.0"
+               height="220.0" parentComponent="pnlMain">
+      <Component type="ScriptImage" id="Image1" x="0.0" y="10.0" fileName="/Users/loumana/Documents/Coding/808 Max VST Plugin/UI Design/Photoshop/Research/1. Saturator/AI components/background/generate-a-high-resolution-seamless-text_ZVQ6alHXQp6xZFa62ulqVA_jzTZHt7KS_GYjfxTRoHmOw.jpeg"
+                 width="200.0" height="230.0" parentComponent="pnlSaturator"/>
+      <Component type="ScriptButton" id="btnONSaturator" x="0.0" y="1.0" parentComponent="pnlSaturator"
+                 width="40.0" height="30.0" text="ON" processorId="SaturatorTape"
+                 isMetaParameter="1" parameterId="Enabled" itemColour="1711276032"/>
+      <Component type="ScriptSlider" id="knbSaturator" x="90.0" y="170.0" parentComponent="pnlSaturator"
+                 width="30.0" height="30.0" middlePosition="0.300000011920929"
+                 processorId="SaturatorTape" parameterId="WetAmount" suffix="%"
+                 text="big"/>
+      <Component type="ScriptLabel" id="lblTitleAmount" x="40.0" y="150.0" width="50.0"
+                 height="30.0" parentComponent="pnlSaturator" processorId="Script FX1"
+                 textColour="4289769648" fontStyle="bold" text="Amount" fontSize="11"
+                 visible="0"/>
+      <Component type="ScriptComboBox" id="cmbSaturation" x="40.0" y="70.0" max="5"
+                 parentComponent="pnlSaturator" items="Tape Saturation&#10;Overdrive&#10;Tube Saturation&#10;Transistor&#10;Distortion (hard clip)"
+                 itemColour="1727987712" bgColour="4278190080" fontName="Arial"
+                 textColour="4289769648" enableMidiLearn="1" visible="0"/>
+      <Component type="ScriptLabel" id="lblHeadSATURATOR" x="50.0" y="30.0" width="100.0"
+                 height="30.0" parentComponent="pnlSaturator" processorId="Script FX1"
+                 text="SATURATOR" fontSize="16" fontStyle="Bold" visible="0"/>
+      <Component type="ScriptImage" id="Image4" x="10.0" y="30.0" fileName="/Users/loumana/Documents/Coding/808 Max VST Plugin/UI Design/Photoshop/Research/1. Saturator/vacuum tube saturator V2.png"
+                 width="170" height="200" parentComponent="pnlSaturator"/>
+    </Component>
+    <Component type="ScriptPanel" id="pnlPreset" x="600.0" y="0.0" width="200.0"
+               height="250.0" parentComponent="pnlMain" bgColour="1437511342">
+      <Component type="ScriptImage" id="Image3" x="0.0" y="10.0" fileName="/Users/loumana/Documents/Coding/808 Max VST Plugin/UI Design/Photoshop/Research/1. Saturator/AI components/background/generate-a-high-resolution-seamless-text_ZVQ6alHXQp6xZFa62ulqVA_jzTZHt7KS_GYjfxTRoHmOw.jpeg"
+                 width="200.0" height="230.0" parentComponent="pnlPreset"/>
+      <Component type="ScriptImage" id="LOGO" x="20.0" y="40.0" width="160.0"
+                 height="140.0" parentComponent="pnlPreset" fileName="{PROJECT_FOLDER}Firefly_the name is -808 Max-. i want a logo that looks in the rock Metal universe.png"
+                 popupMenuItems="jhvv&#10;"/>
+      <Component type="ScriptFloatingTile" id="fltAnalyser2" x="40.0" y="160.0"
+                 ContentType="AudioAnalyser" bgColour="4278650631" itemColour="4294901760"
+                 itemColour2="4282664004" textColour="0" Data="{&#10;  &quot;ProcessorId&quot;: &quot;Analyser2&quot;,&#10;  &quot;Index&quot;: 1,&#10;  &quot;FollowWorkspace&quot;: false&#10;}"
+                 parentComponent="pnlPreset" FontSize="3.0" width="130.0" height="60.0"
+                 visible="0"/>
+      <Component type="ScriptPanel" id="pnlUnderLogo" x="30.0" y="20.0" width="150.0"
+                 height="110.0" parentComponent="pnlPreset" text="" bgColour="4278190080"
+                 itemColour="4278190080" itemColour2="4283583564" opaque="1" popupMenuAlign="1"
+                 textColour="4278190080" visible="0"/>
+    </Component>
+    <Component type="ScriptPanel" id="pnlAhdsr" x="0.0" y="0.0" width="200.0"
+               height="250.0" parentComponent="pnlMain">
+      <Component type="ScriptLabel" id="lblTitleAhdsrAttack" x="10.0" y="210.0"
+                 text="Attack" width="40.0" height="20.0" fontStyle="bold" parentComponent="pnlAhdsr"
+                 textColour="4289769648" fontSize="11"/>
+      <Component type="ScriptLabel" id="lblTitleAhdsrDecay" x="60.0" y="210.0"
+                 text="Decay" width="40.0" height="20.0" fontStyle="bold" parentComponent="pnlAhdsr"
+                 textColour="4289769648" fontSize="11"/>
+      <Component type="ScriptLabel" id="lblTitleAhdsrRelease" x="156.0" y="210.0"
+                 text="Release" width="40.0" height="20.0" fontStyle="bold" alignment="left"
+                 parentComponent="pnlAhdsr" textColour="4289769648" fontSize="11"/>
+      <Component type="ScriptLabel" id="lblTitleAhdsrSustain" x="105.0" y="210.0"
+                 text="Sustain" width="45.0" height="20.0" fontStyle="bold" parentComponent="pnlAhdsr"
+                 textColour="4289769648" fontSize="11"/>
+      <Component type="ScriptLabel" id="lblHeadAHDSR" x="40.0" y="20.0" parentComponent="pnlAhdsr"
+                 text="AHDSR" fontSize="16" fontStyle="Bold"/>
+      <Component type="ScriptSlider" id="knbAhdsr1a" x="10.0" y="100.0" width="30.0"
+                 height="100.0" parentComponent="pnlAhdsr" processorId="AHDSR Envelope1"
+                 parameterId="Attack" middlePosition="7000.0" stepSize="1.0" showValuePopup="Above"
+                 text="big" style="Vertical" itemColour="1727987712" bgColour="4278190080"
+                 max="20000.0" isVertical="0" suffix=" ms" showTextBox="0"/>
+      <Component type="ScriptSlider" id="knbAhdsr3d" x="60.0" y="100.0" width="30.0"
+                 height="100.0" parentComponent="pnlAhdsr" processorId="AHDSR Envelope1"
+                 parameterId="Decay" mode="Time" max="20000.0" stepSize="1.0"
+                 suffix=" ms" middlePosition="1000.0" defaultValue="200.0" showValuePopup="Below"
+                 text="big" style="Vertical" itemColour="1727987712" bgColour="4278190080"
+                 showTextBox="0"/>
+      <Component type="ScriptSlider" id="knbAhdsr4s" x="110.0" y="100.0" width="30.0"
+                 height="100.0" parentComponent="pnlAhdsr" processorId="AHDSR Envelope1"
+                 parameterId="Sustain" mode="Decibel" max="0.0" stepSize="0.1000000014901161"
+                 suffix=" dB" middlePosition="-30.0" min="-100.0" showValuePopup="Below"
+                 text="big" itemColour="1727987712" bgColour="4278190080" style="Vertical"
+                 showTextBox="0"/>
+      <Component type="ScriptSlider" id="knbAhdsr5r" x="160.0" y="100.0" width="30.0"
+                 height="100.0" parentComponent="pnlAhdsr" isMetaParameter="1"
+                 processorId="AHDSR Envelope1" parameterId="Release" mode="Time"
+                 max="20000.0" stepSize="1.0" suffix=" ms" middlePosition="100.0"
+                 defaultValue="200.0" showValuePopup="Below" text="big" style="Vertical"
+                 itemColour="1727987712" bgColour="4278190080" showTextBox="0"/>
+    </Component>
+    <Component type="ScriptPanel" id="pnlFilter" x="200.0" y="250.0" width="400.0"
+               height="220.0" parentComponent="pnlMain">
+      <Component type="ScriptButton" id="btnFltrEnvelope" x="200.0" y="170.0"
+                 width="10.0" height="10.0" parentComponent="pnlFilter" text=""
+                 processorId="AHDSR Envelope2" parameterId="Enabled" itemColour="1727987712"
+                 bgColour="1426063360" visible="0"/>
+      <Component type="ScriptSlider" id="knbFltFreq" x="340.0" y="160.0" width="30.0"
+                 height="30.0" parentComponent="pnlFilter" processorId="Filter1"
+                 parameterId="Frequency" mode="Frequency" max="20000.0" stepSize="1.0"
+                 suffix=" Hz" middlePosition="1500.0" min="20.0" showValuePopup="Below"
+                 text="big" visible="0"/>
+      <Component type="ScriptSlider" id="knbFltEnvelopeAttack" x="170.0" y="160.0"
+                 width="30.0" height="30.0" parentComponent="pnlFilter" processorId="AHDSR Envelope2"
+                 parameterId="Attack" mode="Frequency" stepSize="1.0" middlePosition="1000.0"
+                 max="20000.0" showValuePopup="Below" text="big" visible="0"/>
+      <Component type="ScriptLabel" id="lblHeadFILTER" x="160.0" y="10.0" parentComponent="pnlFilter"
+                 itemColour="6949386" width="90.0" height="30.0" fontStyle="Bold"
+                 itemColour2="4227792896" text="FILTER" fontSize="16"/>
+      <Component type="ScriptLabel" id="lblTitleLowPass" x="320.0" y="190.0" parentComponent="pnlFilter"
+                 itemColour="6949386" width="70.0" height="20.0" fontStyle="bold"
+                 itemColour2="4227792896" text="LowPass" textColour="4289769648"
+                 fontSize="11" visible="0"/>
+      <Component type="ScriptLabel" id="lblTitleFiltrQ" x="294.0" y="192.0" parentComponent="pnlFilter"
+                 itemColour="6949386" width="30.0" height="20.0" fontStyle="bold"
+                 itemColour2="4227792896" text="Q" textColour="4289769648" fontSize="11"
+                 visible="0"/>
+      <Component type="ScriptLabel" id="lblTitleFltrEnvelopeAttack" x="130.0"
+                 y="190.0" parentComponent="pnlFilter" itemColour="6949386" width="130.0"
+                 height="20.0" fontStyle="bold" itemColour2="4227792896" text="Envelope Attack"
+                 textColour="4289769648" fontSize="11" visible="0"/>
+      <Component type="ScriptSlider" id="knbFltFreq1" x="30.0" y="160.0" width="30.0"
+                 height="30.0" parentComponent="pnlFilter" processorId="FilterHighPass"
+                 parameterId="Frequency" mode="Frequency" max="20000.0" stepSize="1.0"
+                 suffix=" Hz" middlePosition="1500.0" min="20.0" showValuePopup="Below"
+                 text="big" visible="0"/>
+      <Component type="ScriptLabel" id="lblTitleHighPass1" x="10.0" y="190.0"
+                 parentComponent="pnlFilter" itemColour="6949386" width="80.0"
+                 height="20.0" fontStyle="bold" itemColour2="4227792896" text="HighPass"
+                 textColour="4289769648" fontSize="11" visible="0"/>
+      <Component type="ScriptButton" id="btnFltrEnvelope2" x="200.0" y="170.0"
+                 width="10.0" height="10.0" parentComponent="pnlFilter" text=""
+                 processorId="AHDSR Envelope2" parameterId="Enabled" itemColour="1727987712"
+                 bgColour="1426063360" visible="0"/>
+      <Component type="ScriptImage" id="Image5" x="10.0" y="0.0" parentComponent="pnlFilter"
+                 fileName="/Users/loumana/Documents/Coding/808 Max VST Plugin/UI Design/Photoshop/Research/2. FILTER/Export/FilterV22.png"
+                 width="390.0" height="240.0"/>
+      <Component type="ScriptFloatingTile" id="pnlFltrSpectrometer" x="40.0" y="110.0"
+                 ContentType="AudioAnalyser" bgColour="4278650631" itemColour="4294901760"
+                 itemColour2="4278190080" textColour="0" Data="{&#10;  &quot;ProcessorId&quot;: &quot;Analyser1&quot;,&#10;  &quot;Index&quot;: 1,&#10;  &quot;FollowWorkspace&quot;: false&#10;}"
+                 parentComponent="pnlFilter" FontSize="3.0" width="310.0" height="90.0"/>
+      <Component type="ScriptFloatingTile" id="pnlFltrDisplay" x="40.0" y="110.0"
+                 ContentType="FilterDisplay" bgColour="3355443" itemColour="4294967295"
+                 itemColour2="2164260863" Data="{&#10;  &quot;ProcessorId&quot;: &quot;Filter1&quot;,&#10;  &quot;Index&quot;: -1,&#10;  &quot;FollowWorkspace&quot;: false&#10;}"
+                 width="310.0" height="90.0" parentComponent="pnlFilter"/>
+      <Component type="ScriptButton" id="btnONFilter" x="1.0" y="0.0" parentComponent="pnlFilter"
+                 width="40.0" height="30.0" text="ON" processorId="Filter1" isMetaParameter="1"
+                 parameterId="Enabled" itemColour="1711276032" macroControl="No MacroControl"/>
+      <Component type="ScriptButton" id="btnFltrHighPass" x="60.0" y="170.0" width="10.0"
+                 height="10.0" parentComponent="pnlFilter" text="" processorId="FilterHighPass"
+                 parameterId="Enabled" itemColour="1727987712" bgColour="1426063360"
+                 visible="0"/>
+    </Component>
+    <Component type="ScriptPanel" id="pnlLFO" x="600.0" y="250.0" width="200.0"
+               height="220.0" parentComponent="pnlMain">
+      <Component type="ScriptImage" id="Image2" x="10.0" y="10.0" fileName="/Users/loumana/Documents/Coding/808 Max VST Plugin/UI Design/Photoshop/Research/1. Saturator/AI components/background/generate-a-high-resolution-seamless-text_ZVQ6alHXQp6xZFa62ulqVA_jzTZHt7KS_GYjfxTRoHmOw.jpeg"
+                 width="180.0" height="200.0" parentComponent="pnlLFO"/>
+      <Component type="ScriptLabel" id="lblTitleLFOFreq" x="60.0" y="160.0" width="80.0"
+                 height="20.0" parentComponent="pnlLFO" text="Frequency" textColour="4289769648"
+                 fontStyle="bold" fontSize="11"/>
+      <Component type="ScriptLabel" id="lblHeadLfo" x="41.0" y="20.0" text="LFO"
+                 parentComponent="pnlLFO" fontSize="16" fontStyle="Bold"/>
+      <Component type="ScriptComboBox" id="cmbLfoWaveform" x="40.0" y="59.0" processorId="LFO Modulator1"
+                 parameterId="WaveFormType" max="7" isPluginParameter="1" parentComponent="pnlLFO"
+                 items="Sine&#10;Triangle&#10;Saw&#10;Square&#10;Random&#10;Custom&#10;Steps"
+                 text="Waveform" itemColour="1560215552" bgColour="4278190080"
+                 fontName="Arial" textColour="4289769648"/>
+      <Component type="ScriptSlider" id="knbLfoFreq" x="84.0" y="116.0" width="30.0"
+                 height="30.0" processorId="LFO Modulator1" parameterId="Frequency"
+                 mode="Frequency" max="20.0" stepSize="1.0" suffix=" Hz" middlePosition="10.0"
+                 parentComponent="pnlLFO" showValuePopup="Below" text="big" saveInPreset="0"/>
+      <Component type="ScriptButton" id="btnONLfo" x="0.0" y="0.0" parentComponent="pnlLFO"
+                 width="40.0" processorId="LFO Modulator1" parameterId="Enabled"
+                 text="ON" height="30.0" itemColour="1711276032" isMetaParameter="1"/>
+    </Component>
+    <Component type="ScriptPanel" id="pnlPreload" x="210.0" y="480.0" parentComponent="pnlMain"
+               visible="0"/>
+    <Component type="ScriptFloatingTile" id="fltKeyboard" x="0.0" y="470.0"
+               parentComponent="pnlMain" ContentType="Keyboard" bgColour="4284769380"
+               itemColour="452984831" itemColour2="4294967295" Data="{&#10;  &quot;KeyWidth&quot;: 20.0,&#10;  &quot;DisplayOctaveNumber&quot;: false,&#10;  &quot;LowKey&quot;: 17,&#10;  &quot;HiKey&quot;: 127,&#10;  &quot;CustomGraphics&quot;: false,&#10;  &quot;DefaultAppearance&quot;: false,&#10;  &quot;BlackKeyRatio&quot;: 0.699999988079071,&#10;  &quot;ToggleMode&quot;: false,&#10;  &quot;MidiChannel&quot;: 1,&#10;  &quot;UseVectorGraphics&quot;: true,&#10;  &quot;UseFlatStyle&quot;: false,&#10;  &quot;MPEKeyboard&quot;: false,&#10;  &quot;MPEStartChannel&quot;: 2,&#10;  &quot;MPEEndChannel&quot;: 16&#10;}"
+               textColour="0" width="830.0" height="80.0"/>
+  </Component>
+  <Component type="ScriptPanel" id="pnlFilterDim1" x="600.0" y="90.0" width="200.0"
+             height="220.0" bgColour="4278190080" itemColour="4278190080"
+             visible="0"/>
+  <Component type="ScriptPanel" id="pnlLFODim" x="600.0" y="310.0" width="200.0"
+             height="220.0" bgColour="4278190080" itemColour="4278387202"
+             itemColour2="4278190080" textColour="4294967295" visible="0"/>
+  <Component type="ScriptPanel" id="pnlSaturatorDim" x="0.0" y="310.0" width="200.0"
+             height="220.0" visible="0"/>
+  <Component type="ScriptPanel" id="pnlFilterDim" x="0.0" y="90.0" width="200.0"
+             height="220.0" visible="0"/>
+</ContentProperties>
