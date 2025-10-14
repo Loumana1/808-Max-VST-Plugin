@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Preset Version="1.0.0">
+  <Content Processor="Interface">
+    <Control type="ScriptSlider" id="knb_PresetStateControl" value="0.0"/>
+    <Control type="ScriptButton" id="btn_PresetMenu" value="1.0"/>
+    <Control type="ScriptButton" id="btn_PresetPrev" value="0.0"/>
+    <Control type="ScriptButton" id="btn_PresetNext" value="0.0"/>
+  </Content>
+  <MidiAutomation/>
+  <MPEData Enabled="0"/>
+</Preset>

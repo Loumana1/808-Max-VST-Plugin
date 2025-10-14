@@ -10,8 +10,8 @@
                    NumFilters="1" NumDisplayBuffers="1">
           <ChildProcessors/>
           <Content>
-            <Control type="ScriptButton" id="btnSamples" value="0"/>
-            <Control type="ScriptButton" id="btnMain" value="1"/>
+            <Control type="ScriptButton" id="btnSamples" value="1"/>
+            <Control type="ScriptButton" id="btnMain" value="0"/>
             <Control type="ScriptSlider" id="knbGain" value="12.00000190734863"/>
             <Control type="ScriptSlider" id="knbPresetWidth" value="100.0"/>
             <Control type="ScriptedViewport" id="Viewport808Browser" value="0.0"/>

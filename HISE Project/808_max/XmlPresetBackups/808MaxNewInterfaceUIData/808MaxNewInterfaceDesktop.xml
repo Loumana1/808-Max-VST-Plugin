@@ -31,14 +31,14 @@
   </Component>
   <Component type="ScriptPanel" id="pnlSamples" x="0.0" y="50.0" width="1200.0"
              height="790.0" bgColour="4278190080" itemColour="4278190080"
-             itemColour2="3456040960" text="Samples" visible="0">
+             itemColour2="3456040960" text="Samples">
     <Component type="ScriptFloatingTile" id="PresetBrowser" x="70.0" y="30.0"
                ContentType="PresetBrowser" bgColour="4143972352" itemColour="4287692721"
                itemColour2="0" Data="{&#10;  &quot;ShowSaveButton&quot;: true,&#10;  &quot;ShowExpansionsAsColumn&quot;: false,&#10;  &quot;ShowFolderButton&quot;: true,&#10;  &quot;ShowNotes&quot;: false,&#10;  &quot;ShowEditButtons&quot;: true,&#10;  &quot;EditButtonOffset&quot;: 10,&#10;  &quot;ShowAddButton&quot;: true,&#10;  &quot;ShowRenameButton&quot;: true,&#10;  &quot;ShowDeleteButton&quot;: true,&#10;  &quot;ShowSearchBar&quot;: true,&#10;  &quot;ShowFavoriteIcon&quot;: true,&#10;  &quot;FullPathFavorites&quot;: false,&#10;  &quot;ButtonsInsideBorder&quot;: false,&#10;  &quot;NumColumns&quot;: 2,&#10;  &quot;ColumnWidthRatio&quot;: [&#10;    0.3333333333333333,&#10;    0.3333333333333333,&#10;    0.3333333333333333&#10;  ],&#10;  &quot;ListAreaOffset&quot;: [&#10;    0,&#10;    0,&#10;    0,&#10;    0&#10;  ],&#10;  &quot;ColumnRowPadding&quot;: [&#10;    0,&#10;    0,&#10;    0,&#10;    0&#10;  ],&#10;  &quot;SearchBarBounds&quot;: [],&#10;  &quot;MoreButtonBounds&quot;: [],&#10;  &quot;SaveButtonBounds&quot;: [],&#10;  &quot;FavoriteButtonBounds&quot;: []&#10;}"
                width="1060.0" height="690.0" parentComponent="pnlSamples"/>
   </Component>
   <Component type="ScriptPanel" id="pnlMain" x="0.0" y="48.0" width="1200.0"
-             height="750.0" text="Main">
+             height="750.0" text="Main" visible="0">
     <Component type="ScriptPanel" id="pnl808List" x="20.0" y="21.0" width="280.0"
                height="300.0" parentComponent="pnlMain" holdIsRightClick="0">
       <Component type="ScriptedViewport" id="Viewport808Browser" x="30.0" y="70.0"
