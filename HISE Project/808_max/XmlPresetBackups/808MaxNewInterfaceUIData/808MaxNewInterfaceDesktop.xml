@@ -31,14 +31,14 @@
   </Component>
   <Component type="ScriptPanel" id="pnlSamples" x="0.0" y="50.0" width="1200.0"
              height="790.0" bgColour="4278190080" itemColour="4278190080"
-             itemColour2="3456040960" text="Samples">
+             itemColour2="3456040960" text="Samples" visible="0">
     <Component type="ScriptFloatingTile" id="PresetBrowser" x="70.0" y="30.0"
                ContentType="PresetBrowser" bgColour="4143972352" itemColour="4287692721"
                itemColour2="0" Data="{&#10;  &quot;ShowSaveButton&quot;: true,&#10;  &quot;ShowExpansionsAsColumn&quot;: false,&#10;  &quot;ShowFolderButton&quot;: true,&#10;  &quot;ShowNotes&quot;: false,&#10;  &quot;ShowEditButtons&quot;: true,&#10;  &quot;EditButtonOffset&quot;: 10,&#10;  &quot;ShowAddButton&quot;: true,&#10;  &quot;ShowRenameButton&quot;: true,&#10;  &quot;ShowDeleteButton&quot;: true,&#10;  &quot;ShowSearchBar&quot;: true,&#10;  &quot;ShowFavoriteIcon&quot;: true,&#10;  &quot;FullPathFavorites&quot;: false,&#10;  &quot;ButtonsInsideBorder&quot;: false,&#10;  &quot;NumColumns&quot;: 2,&#10;  &quot;ColumnWidthRatio&quot;: [&#10;    0.3333333333333333,&#10;    0.3333333333333333,&#10;    0.3333333333333333&#10;  ],&#10;  &quot;ListAreaOffset&quot;: [&#10;    0,&#10;    0,&#10;    0,&#10;    0&#10;  ],&#10;  &quot;ColumnRowPadding&quot;: [&#10;    0,&#10;    0,&#10;    0,&#10;    0&#10;  ],&#10;  &quot;SearchBarBounds&quot;: [],&#10;  &quot;MoreButtonBounds&quot;: [],&#10;  &quot;SaveButtonBounds&quot;: [],&#10;  &quot;FavoriteButtonBounds&quot;: []&#10;}"
                width="1060.0" height="690.0" parentComponent="pnlSamples"/>
   </Component>
   <Component type="ScriptPanel" id="pnlMain" x="0.0" y="48.0" width="1200.0"
-             height="750.0" text="Main" visible="0">
+             height="750.0" text="Main">
     <Component type="ScriptPanel" id="pnl808List" x="20.0" y="21.0" width="280.0"
                height="300.0" parentComponent="pnlMain" holdIsRightClick="0">
       <Component type="ScriptedViewport" id="Viewport808Browser" x="30.0" y="70.0"
@@ -57,8 +57,6 @@
       <Component type="ScriptPanel" id="pnlEffectTypeInside" x="29.0" y="30.0"
                  parentComponent="pnlEffectType" width="240.0" height="310.0"
                  bgColour="4287532686" itemColour="4278190080" itemColour2="4281479473">
-        <Component type="ScriptButton" id="btnEffectViewMultiBand" x="71.0" y="221.0"
-                   parentComponent="pnlEffectTypeInside" text="MultiBand"/>
         <Component type="ScriptButton" id="btnONFilter" x="31.0" y="170.0" parentComponent="pnlEffectTypeInside"
                    width="40.0" height="30.0" text="ON" processorId="Filter1" isMetaParameter="1"
                    parameterId="Enabled" itemColour="1711276032" macroControl="No MacroControl"/>
@@ -74,9 +72,6 @@
                    parentComponent="pnlEffectTypeInside" text="LFO"/>
         <Component type="ScriptButton" id="btnEffectViewFilter " x="71.0" y="170.0"
                    parentComponent="pnlEffectTypeInside" text="Filter"/>
-        <Component type="ScriptButton" id="btnONMultiBand" x="31.0" y="221.0" parentComponent="pnlEffectTypeInside"
-                   width="40.0" height="30.0" text="ON" isMetaParameter="1" itemColour="1711276032"
-                   processorId="Compresor MultiBand" parameterId="Enabled"/>
       </Component>
     </Component>
     <Component type="ScriptPanel" id="pnlEffect" x="300.0" y="360.0" width="900.0"
@@ -84,8 +79,7 @@
                itemColour="4285032552" itemColour2="4284177243" textColour="4285822068">
       <Component type="ScriptPanel" id="pnlEffectFilter" x="0.0" y="10.0" width="900.0"
                  height="370.0" parentComponent="pnlEffect" bgColour="4278190080"
-                 itemColour="4279176975" itemColour2="4284177243" textColour="4285822068"
-                 visible="0">
+                 itemColour="4279176975" itemColour2="4284177243" textColour="4285822068">
         <Component type="ScriptPanel" id="pnlFilter" x="30.0" y="22.0" width="840.0"
                    height="360.0" parentComponent="pnlEffectFilter" itemColour2="818728140">
           <Component type="ScriptImage" id="Image1" x="10.0" y="10.0" fileName="/Users/loumana/Downloads/a-digital-painting-of-a-vintage-digital-_HfNxV7VDTx-2DPgLXIgOHQ_Rea7bBgcRty4rpyrO0hn-A.png"
@@ -157,7 +151,8 @@
       </Component>
       <Component type="ScriptPanel" id="pnlEffectLFO" x="0.0" y="0.0" width="900.0"
                  height="370.0" parentComponent="pnlEffect" bgColour="4278190080"
-                 itemColour="4279176975" itemColour2="4284177243" textColour="4285822068">
+                 itemColour="4279176975" itemColour2="4284177243" textColour="4285822068"
+                 visible="0">
         <Component type="ScriptPanel" id="pnlLFO" x="30.0" y="21.0" width="840.0"
                    height="330.0" parentComponent="pnlEffectLFO">
           <Component type="ScriptImage" id="ScriptImage1" x="-130.0" y="-100.0" width="970.0"
@@ -207,108 +202,6 @@
                      mode="Time" max="10000.0" stepSize="1.0" suffix="ms" middlePosition="50.0"
                      parentComponent="pnlLFO" showValuePopup="Below" text="small"
                      saveInPreset="0" bgColour="4294967295" itemColour="4281545523"/>
-        </Component>
-      </Component>
-      <Component type="ScriptPanel" id="pnlEffectMultiBandComp" x="0.0" y="1.0"
-                 width="900.0" height="370.0" parentComponent="pnlEffect" bgColour="4278190080"
-                 itemColour="4279176975" itemColour2="4284177243" textColour="4285822068"
-                 visible="0">
-        <Component type="ScriptPanel" id="pnlMultiBandComp" x="41.0" y="20.0" width="800.0"
-                   height="330.0" parentComponent="pnlEffectMultiBandComp">
-          <Component type="ScriptLabel" id="lblMultiBandCompHiTresh" x="199.0" y="252.0"
-                     text="Treshold" width="70.0" height="20.0" fontSize="11.0" parentComponent="pnlMultiBandComp"/>
-          <Component type="ScriptImage" id="Image11" x="-50.0" y="-140.0" fileName="/Users/loumana/Downloads/the-image-showcases-a-professional-music_n3Pq8av1RAejhFVcENzyjQ_UPVW7vTZR_WGh1B0qCMf9A.png"
-                     parentComponent="pnlMultiBandComp" width="1700.0" height="510.0"
-                     visible="0"/>
-          <Component type="ScriptPanel" id="Panel2" x="239.0" y="32.0" width="300.0"
-                     height="160.0" parentComponent="pnlMultiBandComp" itemColour="4278190080"
-                     bgColour="4294967295" textColour="3400971958" itemColour2="3010227308">
-            <Component type="ScriptFloatingTile" id="FloatingTile1" x="10.0" y="11.0"
-                       ContentType="FilterDisplay" bgColour="4281545523" itemColour="4294967295"
-                       itemColour2="2164260863" Data="{&#10;  &quot;ProcessorId&quot;: &quot;Compresor MultiBand&quot;,&#10;  &quot;Index&quot;: 0,&#10;  &quot;FollowWorkspace&quot;: false&#10;}"
-                       width="280.0" height="140.0" parentComponent="Panel2"/>
-          </Component>
-          <Component type="ScriptSlider" id="knbMultiBandCompThresh" x="209.0" y="202.0"
-                     parentComponent="pnlMultiBandComp" width="50.0" height="50.0"
-                     processorId="Compresor MultiBand" parameterId="Threshold" text="small"
-                     min="-40.0" max="0.0" suffix="db" middlePosition="-10.0" stepSize="1.0"
-                     saveInPreset="0" showValuePopup="Above"/>
-          <Component type="ScriptLabel" id="lblHeadMultiBandComp" x="10.0" y="0.0"
-                     text="MultiBandComp" parentComponent="pnlMultiBandComp" fontSize="16"
-                     fontStyle="Bold" width="140.0" height="40.0"/>
-          <Component type="ScriptComboBox" id="cmbLfoWaveform1" x="549.0" y="32.0"
-                     max="7" isPluginParameter="1" parentComponent="pnlMultiBandComp"
-                     items="Sine&#10;Triangle&#10;Saw&#10;Square&#10;Random&#10;Custom&#10;Steps"
-                     text="Waveform" itemColour="1560215552" bgColour="4278190080"
-                     fontName="Arial" textColour="4289769648"/>
-          <Component type="ScriptSlider" id="knbMultiBandCompFrq" x="359.0" y="202.0"
-                     width="80.0" height="80.0" mode="Frequency" max="20000.0" stepSize="1.0"
-                     suffix=" Hz" middlePosition="1000.0" parentComponent="pnlMultiBandComp"
-                     showValuePopup="Below" text="small" saveInPreset="0" processorId="Compresor MultiBand"
-                     parameterId="Frequency" defaultValue="1000.0"/>
-          <Component type="ScriptLabel" id="lblMultiBandCompFrq" x="369.0" y="292.0"
-                     width="60.0" height="20.0" parentComponent="pnlMultiBandComp"
-                     text="Frequency" textColour="4289769648" fontStyle="bold" fontSize="11.0"/>
-          <Component type="ScriptLabel" id="lblMultiBandCompRatioHigh" x="299.0" y="252.0"
-                     width="40.0" height="20.0" parentComponent="pnlMultiBandComp"
-                     text="Ratio " textColour="4289769648" fontStyle="bold" fontSize="11.0"/>
-          <Component type="ScriptSlider" id="knbMultiBandCompRatio" x="289.0" y="202.0"
-                     width="50.0" height="50.0" max="100.0" stepSize="0.1000000014901161"
-                     suffix=" " middlePosition="10.0" parentComponent="pnlMultiBandComp"
-                     showValuePopup="Above" text="small" saveInPreset="0" processorId="Compresor MultiBand"
-                     parameterId="Ratio" min="0.1000000014901161" defaultValue="3.0"/>
-          <Component type="ScriptSlider" id="knbMultiBandCompQ" x="473.0" y="252.0"
-                     width="50.0" height="50.0" max="8.0" stepSize="0.1000000014901161"
-                     suffix=" " middlePosition="1.5" parentComponent="pnlMultiBandComp"
-                     showValuePopup="Below" text="small" saveInPreset="0" processorId="Compresor MultiBand"
-                     parameterId="Q" defaultValue="0.300000011920929" min="0.300000011920929"/>
-          <Component type="ScriptLabel" id="lblMultiBandCompQ" x="495.0" y="302.0"
-                     width="30.0" height="20.0" parentComponent="pnlMultiBandComp"
-                     text="Q" textColour="4289769648" fontStyle="bold" fontSize="11.0"/>
-          <Component type="ScriptSlider" id="knbMultiBandCompMode" x="539.0" y="252.0"
-                     width="50.0" height="50.0" max="4.0" stepSize="1.0" suffix="Low Shaelf; Hi Shelf;bell"
-                     middlePosition="3.0" parentComponent="pnlMultiBandComp" showValuePopup="Below"
-                     text="small" saveInPreset="0" processorId="Compresor MultiBand"
-                     parameterId="Mode" min="2.0" defaultValue="2.0"/>
-          <Component type="ScriptLabel" id="lblMultiBandCompMode" x="545.0" y="302.0"
-                     width="40.0" height="20.0" textColour="4289769648" fontSize="11.0"
-                     parentComponent="pnlMultiBandComp" text="Curve"/>
-          <Component type="ScriptSlider" id="knbMultiBandCompAttack" x="473.0" y="192.0"
-                     width="50.0" height="50.0" mode="Time" max="250.0" stepSize="1.0"
-                     suffix=" " middlePosition="50.0" parentComponent="pnlMultiBandComp"
-                     showValuePopup="Below" text="small" saveInPreset="0" processorId="Compresor MultiBand"
-                     parameterId="Attack"/>
-          <Component type="ScriptLabel" id="lblMultiBandCompAttack" x="474.0" y="240.0"
-                     width="40.0" height="20.0" parentComponent="pnlMultiBandComp"
-                     text="Attack" textColour="4289769648" fontStyle="bold" fontSize="11.0"/>
-          <Component type="ScriptSlider" id="knbMultiBandCompRelease" x="545.0" y="192.0"
-                     width="50.0" height="50.0" mode="Time" max="1000.0" stepSize="1.0"
-                     middlePosition="50.0" parentComponent="pnlMultiBandComp" showValuePopup="Below"
-                     text="small" saveInPreset="0" processorId="Compresor MultiBand"
-                     parameterId="Release"/>
-          <Component type="ScriptLabel" id="lblMultiBandCompRelease" x="540.0" y="240.0"
-                     width="50.0" height="20.0" parentComponent="pnlMultiBandComp"
-                     text="Release" textColour="4289769648" fontStyle="bold" fontSize="11.0"/>
-          <Component type="ScriptButton" id="btnMultiBandCompTypeUp" x="189.0" y="52.0"
-                     width="40.0" height="40.0" parentComponent="pnlMultiBandComp"
-                     text="Up"/>
-          <Component type="ScriptButton" id="btnMultiBandCompTypeDown" x="189.0" y="102.0"
-                     width="40.0" height="50.0" parentComponent="pnlMultiBandComp"
-                     text="Down"/>
-          <Component type="ScriptSlider" id="knbMultiBandCompGain" x="209.0" y="262.0"
-                     parentComponent="pnlMultiBandComp" width="50.0" height="50.0"
-                     processorId="Compresor MultiBand" parameterId="Plus gain" text="small"
-                     min="-1.0" suffix="db" middlePosition="0.0" saveInPreset="0"
-                     showValuePopup="Above"/>
-          <Component type="ScriptLabel" id="lblMultiBandCompGain" x="199.0" y="312.0"
-                     text="Gain" width="70.0" height="20.0" fontSize="11.0" parentComponent="pnlMultiBandComp"/>
-          <Component type="ScriptSlider" id="knbMultiBandCompamount" x="289.0" y="261.0"
-                     parentComponent="pnlMultiBandComp" width="50.0" height="50.0"
-                     processorId="Compresor MultiBand" parameterId="Compression amount"
-                     text="small" min="-1.0" suffix="db" middlePosition="0.0" saveInPreset="0"
-                     showValuePopup="Above"/>
-          <Component type="ScriptLabel" id="lblMultiBandCompAmount" x="279.0" y="311.0"
-                     text="Amount" width="70.0" height="20.0" fontSize="11.0" parentComponent="pnlMultiBandComp"/>
         </Component>
       </Component>
     </Component>

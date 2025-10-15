@@ -5,11 +5,8 @@ if (dsp)
     dsp.setForwardControlsToParameters(false);
 
 include("Buttons.js");
-include("keyboard.js");
 include("Panels.js");
 include("Preset.js");
-include("Saturation.js");
-
 include("LookAndFeel.js");
 include("SELECTEFFECT.js");
 include ("WaveformView.js");
@@ -202,47 +199,26 @@ Content.getComponent("testClean").setControlCallback(ontestCleanControl);
 
 
 
+// ------------------------------- Saturation combobox dropdown ------------------//
+
+const knbSaturator= Content.getComponent("knbSaturator");
+const saturator = Synth.getEffect("SaturatorTape");
+
+const cmbSaturation = Content.getComponent("cmbSaturation");
+const saturationTypes = [
+    "Tape Saturation",
+    "Overdrive", 
+    "Tube Saturation",
+    "Transistor",
+    "Distortion (hard clip)"
+];
+cmbSaturation.set("items", saturationTypes.join("\n"));
+knbSaturator.setRange(0, 1, 0.01);
+knbSaturator.setValue(0.0);
+
+var currentSaturationType = 0;
 
 
-
-
-//========================== MB Upworad and Dowan compression button assignement ====================///
-/*
-const  btnUpWards = Content.getComponent("btnMultiBandCompTypeUp"); 
-const  btnDownards = Content.getComponent("btnMultiBandCompTypeDown"); 
-const var   MB = Synth.getEffect("Multiband comp");
-
-
-
-inline function showType(name)
-{
-    // Set opposite states for the buttons
-    btnDownards.setValue(name == "Down" ? 1 : 0);
-    btnUpWards.setValue(name == "Up" ? 1 : 0);
-}
-
-inline function onbtnUpWardsControl(component, value)
-{
-    if (value) 
-    {
-        MB.setAttribute(MB.CompresorType, 1);
-        showType("Up");  // Update both buttons
-    }
-}
-
-inline function onbtnDownardsControl(component, value)
-{
-    if (value)
-    {
-        MB.setAttribute(MB.CompresorType, 0);
-        showType("Down");  // Update both buttons
-    }
-}
-
-btnDownards.setControlCallback(onbtnDownardsControl); 
-btnUpWards.setControlCallback(onbtnUpWardsControl); 
-
-*/
 
 
 function onNoteOn()
