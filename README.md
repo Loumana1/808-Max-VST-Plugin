@@ -1,7 +1,8 @@
 # 808 Max
 
-**The 808 plugin that actually works.**
-
+<p align="center">
+  <img src="assets/808 max.png" alt="808 Max interface" width="800">
+</p>
 808 Max is a free, open-source VST instrument for hip-hop, trap, drill, hyperpop, and electronic producers. It gives you a curated set of usable 808 bass sounds and the few controls that actually matter — saturation, envelope, filter, and a live waveform — then gets out of the way.
 
 No 300-preset browsers. No filler samples. Load it, pick a bass, shape it, finish the beat.
