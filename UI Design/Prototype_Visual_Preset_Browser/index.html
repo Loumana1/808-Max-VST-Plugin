@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>808 Max - Visual Preset Browser Prototype</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <h1>808 MAX</h1>
+                <div class="preset-info">
+                    <span class="preset-label">PRESET:</span>
+                    <span class="preset-name" id="presetName">Aucun sélectionné</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="random-btn" id="randomBtn" title="Sélection aléatoire">⟳</button>
+            </div>
+            <div class="header-stats">
+                <span id="matchCount">144 samples</span>
+                <span class="separator">|</span>
+                <span>Filtres actifs: <span id="activeFilters">0</span></span>
+            </div>
+        </header>
+
+        <!-- Main Viewport -->
+        <div class="viewport-container">
+            <canvas id="scatterCanvas"></canvas>
+            <div class="axis-labels">
+                <div class="y-axis-label">
+                    <span class="axis-top">DISTORTED</span>
+                    <span class="axis-bottom">CLEAN</span>
+                </div>
+                <div class="x-axis-label">
+                    <span class="axis-left">SHORT</span>
+                    <span class="axis-center">DECAY</span>
+                    <span class="axis-right">LONG</span>
+                </div>
+            </div>
+            <div class="legend">
+                <div class="legend-title">LÉGENDE</div>
+                <div class="legend-item">
+                    <span class="legend-dot" style="background: #8B0000;"></span>
+                    <span>Pure Sub</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot" style="background: #FF0000;"></span>
+                    <span>808 Classic</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot" style="background: #FF3300;"></span>
+                    <span>Reese</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot" style="background: #FF6600;"></span>
+                    <span>Bass Guitar</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot" style="background: #FF9900;"></span>
+                    <span>Brassy</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot" style="background: #CC0066;"></span>
+                    <span>Synth</span>
+                </div>
+                <div class="legend-note">Taille = Brightness | Bordure = Attack</div>
+            </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <button class="filter-btn" data-filter="short">Short</button>
+            <button class="filter-btn" data-filter="clean">Clean</button>
+            <button class="filter-btn" data-filter="distorted">Distorted</button>
+            <button class="filter-btn" data-filter="punchy">Punchy</button>
+            <button class="filter-btn" data-filter="long">Long</button>
+            <button class="filter-btn" data-filter="bright">Bright</button>
+            <button class="filter-btn" data-filter="sub">Sub Heavy</button>
+            <button class="clear-filters" id="clearFilters">Effacer</button>
+        </div>
+
+        <!-- Details Panel -->
+        <div class="details-panel">
+            <div class="details-header">
+                <h2 id="sampleName">Aucun sample sélectionné</h2>
+                <button class="play-btn" id="playBtn" title="Jouer le sample">▶</button>
+            </div>
+            <div class="details-tags" id="sampleTags"></div>
+            <div class="details-info" id="sampleInfo"></div>
+        </div>
+
+        <!-- Tooltip -->
+        <div class="tooltip" id="tooltip"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

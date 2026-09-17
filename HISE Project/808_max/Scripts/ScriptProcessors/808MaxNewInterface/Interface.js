@@ -11,7 +11,6 @@ include("LookAndFeel.js");
 include("SELECTEFFECT.js");
 include ("WaveformView.js");
 
-//Laod 
 
 
 
@@ -201,8 +200,8 @@ Content.getComponent("testClean").setControlCallback(ontestCleanControl);
 
 // ------------------------------- Saturation combobox dropdown ------------------//
 
-const knbSaturator= Content.getComponent("knbSaturator");
-const saturator = Synth.getEffect("SaturatorTape");
+
+
 
 const cmbSaturation = Content.getComponent("cmbSaturation");
 const saturationTypes = [
@@ -213,11 +212,16 @@ const saturationTypes = [
     "Distortion (hard clip)"
 ];
 cmbSaturation.set("items", saturationTypes.join("\n"));
-knbSaturator.setRange(0, 1, 0.01);
-knbSaturator.setValue(0.0);
+
 
 var currentSaturationType = 0;
 
+
+
+//=========================== Costum preset ========================//
+
+
+const var UserPresetHandler = Engine.createUserPresetHandler();
 
 
 

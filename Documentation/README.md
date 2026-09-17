@@ -47,6 +47,15 @@ Sound Generators reference:
 - AudioSampleProcessor base class
 - Best practices and integration examples
 
+### 🎨 [05_visual_preset_browser_concept.md](05_visual_preset_browser_concept.md)
+Visual Preset Browser concept and UX research:
+- Concept de représentation visuelle des presets
+- Organisation par couleur et position spatiale
+- Références (XLN Audio XO, site gouvernemental US)
+- Questions UX à explorer
+- Patterns de design et accessibilité
+- Plan d'implémentation
+
 ## Key HISE Rules
 
 1. **Always use `inline function`** instead of `function`

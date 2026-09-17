@@ -1,0 +1,1097 @@
+================================================================================
+              808 MAX - COMPLETE UI SPECIFICATION
+           Comprehensive Design Document - 3D Scatter Plot Interface
+================================================================================
+
+DIMENSIONS: 1200px (W) × 800px (H) - Full Window View
+COLOR SCHEME: #0A0A0A (BG) + Blood Red (Distorted) + Ice Blue (Clean)
+INSPIRED BY: XLN Audio XO
+STYLE: Modern, Minimalistic, 3D Space in 2D Plane
+
+================================================================================
+                        1. AXIS MAPPING & LAYOUT
+================================================================================
+
+X-AXIS: DECAY (LEFT → RIGHT)
+────────────────────────────
+  LEFT (0.0):     Short decay (< 1 sec) - Tight, punchy
+  CENTER (0.5):   Medium decay (1-2 sec) - Balanced
+  RIGHT (1.0):    Long decay (2-4+ sec) - Boomy, sustained
+  
+  Label: "SHORT ←─────── DECAY ───────→ LONG"
+
+Y-AXIS: CLEANNESS vs DISTORTION (BOTTOM → TOP) ⚠️ KEY CHANGE
+────────────────────────────────────────────────────────────
+  BOTTOM (0.0):   Clean - Pure sine wave, minimal harmonics
+  CENTER (0.5):   Warm - Light saturation, analog character
+  TOP (1.0):      Distorted - Heavy saturation, aggressive
+
+  Label: "CLEAN ↑──── CLEANNESS vs DISTORTION ────↑ DISTORTED"
+  
+  ⚠️ CRITICAL: Natural visual metaphor:
+     • Clean samples "sink" to bottom (blue fog)
+     • Distorted samples "rise" to top (red fog)
+
+Z-AXIS: BRIGHTNESS (DEPTH via COLOR & SIZE)
+────────────────────────────────────────────
+  DARK (0.0):     Sub-heavy, no high-end (smaller, darker)
+  MID (0.5):      Balanced frequency response
+  BRIGHT (1.0):   High-end present (larger, brighter)
+  
+  Representation: Dot size + Color intensity
+
+================================================================================
+                    2. FOG SYSTEM (ATMOSPHERIC ENVIRONMENT)
+================================================================================
+
+RED FOG (TOP REGION - Distortion Zone) 🔴
+─────────────────────────────────────────
+  Position: Y = 0.7 to 1.0 (top 30% of viewport)
+  Color: #FF0000 → #8B0000 (bright red to dark red)
+  Opacity: 0.0 (at Y=0.7) → 0.5 (at Y=1.0)
+  Effect: Atmospheric glow, suggests "heat" and aggression
+  
+  Visual:
+    ╔══════════════════════════════════════╗
+    ║ ░░░░ RED FOG (Distorted) ░░░░       ║  ← Y = 1.0
+    ║ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓    ║
+    ║ ████████████████████████████████    ║  ← Y = 0.7
+    ║                                     ║
+    ║         CLEAR ZONE                  ║  ← Y = 0.3 to 0.7
+    ║                                     ║
+    ║ ████████████████████████████████    ║  ← Y = 0.3
+    ║ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓    ║
+    ║ ░░░░ BLUE FOG (Clean) ░░░░          ║  ← Y = 0.0
+    ╚══════════════════════════════════════╝
+
+BLUE FOG (BOTTOM REGION - Clean Zone) 🔵
+────────────────────────────────────────
+  Position: Y = 0.0 to 0.3 (bottom 30% of viewport)
+  Color: #0066FF → #003380 (ice blue to dark blue)
+  Opacity: 0.5 (at Y=0.0) → 0.0 (at Y=0.3)
+  Effect: Cool, clean atmosphere suggests purity
+
+CLEAR ZONE (MIDDLE REGION)
+───────────────────────────
+  Position: Y = 0.3 to 0.7 (middle 40% of viewport)
+  Color: Pure black (#0A0A0A)
+  Opacity: 0.0 (no fog)
+  Effect: Neutral visibility zone
+
+FOG SHADER CODE
+───────────────
+```glsl
+float fogIntensity = 0.0;
+vec3 fogColor = vec3(0.0);
+
+// Red fog (top - distorted zone)
+if (uv.y > 0.7) {
+    fogIntensity = pow((uv.y - 0.7) / 0.3, 2.0);  // Non-linear
+    fogColor = mix(vec3(0.54, 0.0, 0.0), vec3(1.0, 0.0, 0.0), fogIntensity);
+}
+// Blue fog (bottom - clean zone)
+else if (uv.y < 0.3) {
+    fogIntensity = pow((0.3 - uv.y) / 0.3, 2.0);
+    fogColor = mix(vec3(0.0, 0.2, 0.4), vec3(0.0, 0.4, 1.0), fogIntensity);
+}
+
+// Blend fog with scene
+vec3 finalColor = mix(sceneColor.rgb, fogColor, fogIntensity * 0.4);
+```
+
+================================================================================
+              3. MULTI-LAYERED VISUAL ENCODING SYSTEM
+================================================================================
+
+ATTACK → ENCODED IN BORDER THICKNESS
+─────────────────────────────────────
+  Soft Attack:      ● Smooth circle, no border (0.0)
+  Medium Attack:    ◐ Circle with thin border (0.3-0.5)
+  Punchy Attack:    ⊙ Circle with thick border (0.6-0.8)
+  Clicky Attack:    ◉ Circle with double ring (0.9-1.0)
+  With Kick:        ⦿ Circle with outer halo
+  
+  Implementation:
+    • Border thickness: 0px (soft) to 4px (clicky)
+    • Border color: Slightly brighter than dot color
+  
+  Shader Code:
+  ```glsl
+  float borderSize = vAttack * 0.15;  // 0.0 to 0.15
+  float borderStart = 0.35;
+  float borderEnd = 0.5;
+  
+  if (dist > borderStart && dist < borderEnd) {
+      float borderAlpha = smoothstep(borderStart, borderStart + 0.05, dist) *
+                         (1.0 - smoothstep(borderEnd - 0.05, borderEnd, dist));
+      color.rgb = mix(color.rgb, vec3(1.0), 0.5);  // Brighter border
+      alpha = max(alpha, borderAlpha);
+  }
+  ```
+
+TONE/STYLE → ENCODED IN COLOR HUE
+──────────────────────────────────
+  Pure Sub Bass:    ● Deep Red (#8B0000)
+  808 Classic:      ● Blood Red (#FF0000)
+  Reese:            ● Red-Orange (#FF3300)
+  Bass Guitar:      ● Orange-Red (#FF6600)
+  Brassy:           ● Orange (#FF9900)
+  Synth:            ● Red-Purple (#CC0066)
+  
+  Implementation:
+    • Base color determined by tone category
+    • Brightness still controls intensity (Z-axis)
+    • Details panel shows full tone description
+  
+  Shader Code:
+  ```glsl
+  vec3 toneColors[6] = vec3[](
+      vec3(0.54, 0.0, 0.0),   // Pure Sub (dark red)
+      vec3(1.0, 0.0, 0.0),    // 808 Classic (blood red)
+      vec3(1.0, 0.2, 0.0),    // Reese (red-orange)
+      vec3(1.0, 0.4, 0.0),    // Bass Guitar (orange-red)
+      vec3(1.0, 0.6, 0.0),    // Brassy (orange)
+      vec3(0.8, 0.0, 0.4)     // Synth (red-purple)
+  );
+  vec3 baseColor = toneColors[int(tone)];
+  vColor = vec4(baseColor * (0.5 + position.z * 0.5), 0.7);
+  ```
+
+ENCODING LAYERS SUMMARY
+───────────────────────
+  1. POSITION (X, Y)     → Decay + Cleanness/Distortion
+  2. FOG ENVIRONMENT     → Reinforces distortion level
+  3. COLOR HUE           → Tone/Style (Pure Sub → Brassy)
+  4. SIZE                → Brightness (Z-axis depth)
+  5. BORDER THICKNESS    → Attack characteristics
+  6. HOVER/SELECTION     → Interactive state (glow, scale)
+
+EXAMPLE SAMPLES WITH FULL ENCODING
+───────────────────────────────────
+
+Sample: "808 - Tyler" (Memphis, Clean, Soft)
+  • X: 0.5 (medium decay)
+  • Y: 0.2 (clean, in blue fog)
+  • Color: Deep Red (#8B0000) - Pure Sub
+  • Size: Medium (balanced brightness)
+  • Border: Thin (soft attack)
+  • Environment: Blue fog (clean zone)
+  Visual: ● Medium red dot with thin border in blue fog
+
+Sample: "808 - BNYX WTF" (Industrial, Distorted, Clicky)
+  • X: 0.3 (short decay)
+  • Y: 0.9 (heavily distorted, in red fog)
+  • Color: Orange (#FF9900) - Brassy
+  • Size: Large (bright, high-end)
+  • Border: Thick double ring (clicky)
+  • Environment: Red fog (distortion zone)
+  Visual: ⦿ Large orange dot with thick border in red fog
+
+Sample: "Synth bass - Reese's Pieces" (Reese, Warm, Medium)
+  • X: 0.7 (long decay)
+  • Y: 0.5 (warm, clear zone)
+  • Color: Red-Orange (#FF3300) - Reese
+  • Size: Medium-Large
+  • Border: Medium (medium attack)
+  • Environment: Clear zone
+  Visual: ◐ Large red-orange dot with medium border, no fog
+
+================================================================================
+                    4. FULL WINDOW LAYOUT (1200×800)
+================================================================================
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ ╔══════════════════════════════════════════════════════════════════════════╗ │
+│ ║                    HEADER BAR (50px height)                              ║ │
+│ ╠══════════════════════════════════════════════════════════════════════════╣ │
+│ ║  [●] 808 MAX                              PRESET: 808 - Tyler       [⟳] ║ │
+│ ║  18px Bold                                14px Medium           Random   ║ │
+│ ║                                                                          ║ │
+│ ║  Matches: 144 samples  |  Filters Active: 0                             ║ │
+│ ║  11px Regular, #808080                                                   ║ │
+│ ╚══════════════════════════════════════════════════════════════════════════╝ │
+│                                                                              │
+│ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓ │
+│ ┃                                                                          ┃ │
+│ ┃                     3D SCATTER PLOT VIEWPORT                             ┃ │
+│ ┃                          (650px height)                                  ┃ │
+│ ┃                                                                          ┃ │
+│ ┃  DISTORTED ▲ ░░░░░░░░░░░░░░ RED FOG ░░░░░░░░░░░░░░                    ┃ │
+│ ┃            │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓                     ┃ │
+│ ┃            │ ████████  ⦿  ●     ◉  ████████████                         ┃ │
+│ ┃            │      ●  ●    ●  ●                                           ┃ │
+│ ┃            │                                                             ┃ │
+│ ┃  CLEAN/    │         ●      ●    ●                                       ┃ │
+│ ┃  DISTORT   │    ●       ●      ●        ●                                ┃ │
+│ ┃            │              ●   ●      ●                                   ┃ │
+│ ┃            │    ●    ●           ●       ●                               ┃ │
+│ ┃            │          ●       ●                                          ┃ │
+│ ┃            │ ████████████████████████████████                           ┃ │
+│ ┃            │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓                          ┃ │
+│ ┃      CLEAN └─░░░░░░░░░░░░░░ BLUE FOG ░░░░░░░░░░░░░───────────►         ┃ │
+│ ┃                  SHORT      DECAY      LONG                             ┃ │
+│ ┃                                                                          ┃ │
+│ ┃  Grid: Subtle perspective grid (#1A1A1A)                                ┃ │
+│ ┃  Dots: 8-16px, opacity 0.7 (unselected) / 1.0 (selected)               ┃ │
+│ ┃  Axes Labels: 14px, white text (#E0E0E0)                                ┃ │
+│ ┃                                                                          ┃ │
+│ ┃  ┌─────────────────────────────────────────────────────────┐ Legend    ┃ │
+│ ┃  │ TONE: ● Pure Sub  ● 808  ● Reese  ● Guitar  ● Brassy   │ (10px)    ┃ │
+│ ┃  │ SIZE: Brightness (larger = brighter/more high-end)      │            ┃ │
+│ ┃  │ BORDER: Attack (thicker = clickier transient)           │            ┃ │
+│ ┃  └─────────────────────────────────────────────────────────┘            ┃ │
+│ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛ │
+│                                                                              │
+│ ╔══════════════════════════════════════════════════════════════════════════╗ │
+│ ║                      FILTER BAR (50px height)                            ║ │
+│ ╠══════════════════════════════════════════════════════════════════════════╣ │
+│ ║  ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐        ║ │
+│ ║  │Short │ │Clean │ │ Zay  │ │Reese │ │Brassy│ │ Warm │ │More▼ │   [X]  ║ │
+│ ║  └──────┘ └──────┘ └──────┘ └──────┘ └──────┘ └──────┘ └──────┘ Clear ║ │
+│ ║  #8B0000   #8B0000  #8B0000  #8B0000  #8B0000  #8B0000  #8B0000   All  ║ │
+│ ║                                                                          ║ │
+│ ║  Pill Buttons: 12px text, rounded corners (20px radius)                 ║ │
+│ ║  Active: Bright red (#FF0000), white text                               ║ │
+│ ║  Inactive: Dark red (#8B0000), gray text (#808080)                      ║ │
+│ ║  Hover: Medium red (#B30000), white text (#E0E0E0)                      ║ │
+│ ╚══════════════════════════════════════════════════════════════════════════╝ │
+│                                                                              │
+│ ╔══════════════════════════════════════════════════════════════════════════╗ │
+│ ║                     DETAILS PANEL (50px height)                          ║ │
+│ ╠══════════════════════════════════════════════════════════════════════════╣ │
+│ ║  808 - Tyler                                              [▶ PLAY]       ║ │
+│ ║  16px Bold, #E0E0E0                                       14px Icon      ║ │
+│ ║  ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐               ║ │
+│ ║  │  Warm  │ │Memphis │ │Bouncy  │ │  Trap  │ │Sub Heavy│               ║ │
+│ ║  └────────┘ └────────┘ └────────┘ └────────┘ └────────┘               ║ │
+│ ║  Tags: 10px, #2A0A0A background, #FF0000 text                           ║ │
+│ ║                                                                          ║ │
+│ ║  Decay: 0.5 │ Clean/Dist: 0.2 │ Attack: Soft │ Tone: Pure Sub          ║ │
+│ ║  11px Regular, #808080                                                   ║ │
+│ ╚══════════════════════════════════════════════════════════════════════════╝ │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+VIEWPORT BREAKDOWN
+──────────────────
+  Header:        50px  (6.25%)
+  Scatter Plot: 650px  (81.25%)  ← DOMINANT VIEW
+  Filter Bar:    50px  (6.25%)
+  Details:       50px  (6.25%)
+  ──────────────────
+  Total:        800px  (100%)
+
+================================================================================
+                    5. EXPANDED FILTER PANEL VIEW
+================================================================================
+
+When "More ▼" is clicked, expand to show all filter categories:
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                       EXPANDED FILTER PANEL (140px)                          ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  ATTACK                                                                      ║
+║  ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐                              ║
+║  │Clicky│ │ Soft │ │Punchy│ │w/Kick│ │No Kick│                             ║
+║  └──────┘ └──────┘ └──────┘ └──────┘ └──────┘                              ║
+║                                                                              ║
+║  DECAY                                                                       ║
+║  ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐                                       ║
+║  │Short │ │Medium│ │ Long │ │Infinite│                                      ║
+║  └──────┘ └──────┘ └──────┘ └──────┘                                       ║
+║                                                                              ║
+║  TEXTURE                                                                     ║
+║  ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐                             ║
+║  │Clean │ │Rumble│ │Reese │ │Distort│ │Gritty│                             ║
+║  └──────┘ └──────┘ └──────┘ └──────┘ └──────┘                             ║
+║                                                                              ║
+║  STYLE                                                                       ║
+║  ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐                    ║
+║  │ Zay  │ │ CTM  │ │Murda │ │Memphis│ │Drill │ │ ... │                    ║
+║  └──────┘ └──────┘ └──────┘ └──────┘ └──────┘ └──────┘                    ║
+║                                                                              ║
+║  [Less ▲] ← Collapse button                                                 ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+================================================================================
+                    6. HOVER & INTERACTION STATES
+================================================================================
+
+DOT HOVER STATE
+───────────────
+  Normal:   8-16px dot, 0.7 opacity, no glow
+  Hover:    1.5x scale, 1.0 opacity, outer glow (10px blur)
+  Duration: 0.1s ease-out
+  
+  Visual:
+  ┌──────────┐
+  │   ●      │  ← Normal dot (8px)
+  │          │
+  │    ◉     │  ← Hovered dot (12px, 1.5x scale)
+  │ ╱      ╲ │     + Red glow (#FF0000, 10px blur)
+  │          │     + Tooltip appears above
+  └──────────┘
+
+TOOLTIP EXAMPLE
+───────────────
+  ┌───────────────────────┐
+  │ 808 - Tyler           │
+  │ ─────────────────     │
+  │ Tone: Pure Sub        │
+  │ Attack: Soft (0.2)    │
+  │ Decay: Medium (0.5)   │
+  │ Clean/Dist: 0.2       │
+  │ Brightness: 0.6       │
+  └───────────────────────┘
+  
+  Styling:
+    Background: #1A1A1A
+    Border: 1px #FF0000
+    Text: #E0E0E0, 11px
+    Padding: 8px
+    Border Radius: 4px
+    Position: Above dot, centered
+    Arrow: Small triangle pointing down
+
+DOT SELECTION STATE
+───────────────────
+  • Bright glow (20px blur, #FF0000)
+  • Pulsing animation (0.9x ↔ 1.1x scale, 2s loop, infinite)
+  • Opacity: 1.0 (full)
+  • Details panel updates instantly
+  • All other dots dim to 0.3 opacity
+  • Filter bar highlights matching tags
+  • Smooth transition: 0.2s ease-out
+
+FILTER BUTTON STATES
+────────────────────
+  DEFAULT (Inactive):
+    Background: #8B0000 (dark red)
+    Text: #808080 (gray)
+    Border: none
+    Padding: 8px 16px
+    Border Radius: 20px
+  
+  HOVER:
+    Background: #B30000 (medium red)
+    Text: #E0E0E0 (light gray)
+    Border: none
+    Cursor: pointer
+    Transform: scale(1.05)
+    Transition: 0.15s ease
+  
+  ACTIVE (Selected):
+    Background: #FF0000 (bright red)
+    Text: #FFFFFF (white)
+    Border: none
+    Font Weight: Bold
+  
+  TRANSITION: 0.15s ease (all properties)
+
+PLAY BUTTON STATES
+──────────────────
+  DEFAULT:
+    ▶ Icon (16px, #E0E0E0)
+    Background: #8B0000
+    Border: 1px #FF0000
+    Size: 40px × 40px
+    Border Radius: 4px
+  
+  HOVER:
+    ▶ Icon (16px, #FFFFFF)
+    Background: #B30000
+    Border: 2px #FF0000
+    Transform: scale(1.05)
+    Transition: 0.15s ease
+  
+  PLAYING:
+    ◼ Icon (14px, stop icon, #FFFFFF)
+    Background: #FF0000
+    Border: 2px #FF0000
+    Pulsing animation: opacity 0.8 ↔ 1.0, 1s loop
+
+RANDOM BUTTON STATE
+───────────────────
+  DEFAULT:
+    ⟳ Icon (16px, #E0E0E0)
+    Background: Transparent
+    Border: 1px #8B0000
+    Size: 32px × 32px
+    Border Radius: 50% (circular)
+  
+  HOVER:
+    ⟳ Icon (16px, #FF0000)
+    Background: #1A1A1A
+    Border: 1px #FF0000
+    Transform: rotate(90deg)
+    Transition: 0.2s ease
+  
+  ACTIVE (Clicked):
+    ⟳ Icon rotates 360°
+    Duration: 0.4s ease-in-out
+
+================================================================================
+                       7. ANIMATION SPECIFICATIONS
+================================================================================
+
+DOT SELECTION ANIMATION
+───────────────────────
+  Duration: 0.2s
+  Easing: ease-out
+  Properties:
+    - Scale: 1.0 → 1.3
+    - Opacity: 0.7 → 1.0
+    - Glow: 0px → 20px blur
+    - Color: maintains tone color, increases brightness
+  
+  Pulsing (while selected):
+    Duration: 2.0s
+    Easing: ease-in-out
+    Loop: infinite
+    Scale: 0.9x ↔ 1.1x
+
+DOT FILTERING ANIMATION
+───────────────────────
+  Duration: 0.3s
+  Easing: ease-in-out
+  Properties:
+    - Unmatched dots: Opacity 0.7 → 0.2, slight scale down (0.8x)
+    - Matched dots: Opacity 0.7 → 1.0, slight scale up (1.1x)
+    - Fade: smooth transition
+    - Position: No movement (dots stay in place)
+
+VIEW ROTATION ANIMATION
+───────────────────────
+  Duration: Continuous (while dragging)
+  FPS: 60
+  Easing: None (direct input mapping)
+  Properties:
+    - 3D rotation matrix update
+    - Grid perspective shift
+    - Dot depth recalculation
+    - Fog remains fixed to Y-axis (world space)
+  
+  Limits:
+    - Rotation X: ±15° (prevent upside-down)
+    - Rotation Y: ±20° (subtle parallax)
+
+VIEW ZOOM ANIMATION
+───────────────────
+  Duration: 0.3s
+  Easing: ease-out
+  Range: 0.5x to 2.0x
+  Method: Scroll wheel (120 units per notch)
+  Properties:
+    - Camera distance adjustment
+    - Dot size recalculation
+    - Grid scale update
+
+VIEW RESET ANIMATION
+────────────────────
+  Trigger: Double-click on viewport
+  Duration: 0.5s
+  Easing: ease-in-out
+  Properties:
+    - Rotation → 0°, 0°, 0°
+    - Zoom → 1.0x
+    - Pan → 0, 0
+    - Smooth interpolation
+
+FILTER BUTTON TOGGLE
+─────────────────────
+  Duration: 0.15s
+  Easing: ease
+  Properties:
+    - Background color: #8B0000 ↔ #FF0000
+    - Text color: #808080 ↔ #FFFFFF
+    - Font weight: Regular ↔ Bold
+    - Scale: 1.0 → 1.05 (on hover)
+
+HOVER ANIMATIONS
+────────────────
+  Dot Hover:
+    Duration: 0.1s
+    Easing: ease-out
+    Scale: 1.0 → 1.5
+    Glow: 0px → 10px blur
+  
+  Button Hover:
+    Duration: 0.15s
+    Easing: ease
+    Scale: 1.0 → 1.05
+    Background: Lighten by 20%
+  
+  Play Button Hover:
+    Duration: 0.15s
+    Easing: ease
+    Scale: 1.0 → 1.05
+    Border width: 1px → 2px
+
+FOG INTERACTION
+───────────────
+  • Fog layers remain fixed to Y-axis (world space)
+  • As camera rotates, fog reveals/obscures different dots
+  • Fog density increases with distance (depth fog)
+  • Creates atmospheric 3D illusion
+  • No animation (static effect based on position)
+
+================================================================================
+                       8. GLSL SHADER SPECIFICATIONS
+================================================================================
+
+VERTEX SHADER (scatter_vertex.glsl)
+────────────────────────────────────
+```glsl
+attribute vec3 position;      // x=decay, y=cleanness, z=brightness
+attribute float attack;       // 0.0 to 1.0
+attribute float tone;         // 0-5 (category index)
+attribute float sampleIndex;  // Unique ID for hover/selection
+
+uniform mat4 projection;
+uniform mat4 view;
+uniform vec2 mouse;
+uniform int selectedIndex;
+uniform int hoveredIndex;
+uniform float time;
+
+varying vec4 vColor;
+varying float vSize;
+varying float vAttack;
+varying float vTone;
+varying float vSampleIndex;
+
+void main() {
+    // Transform position
+    vec4 worldPos = vec4(position, 1.0);
+    vec4 viewPos = view * worldPos;
+    gl_Position = projection * viewPos;
+    
+    // Calculate size (brightness affects size)
+    float baseSize = 10.0 + (position.z * 6.0);  // 10-16px
+    float depth = -viewPos.z;
+    vSize = baseSize / depth;  // Perspective scaling
+    gl_PointSize = vSize;
+    
+    // Determine color based on tone
+    vec3 toneColors[6] = vec3[](
+        vec3(0.54, 0.0, 0.0),   // 0: Pure Sub (dark red)
+        vec3(1.0, 0.0, 0.0),    // 1: 808 Classic (blood red)
+        vec3(1.0, 0.2, 0.0),    // 2: Reese (red-orange)
+        vec3(1.0, 0.4, 0.0),    // 3: Bass Guitar (orange-red)
+        vec3(1.0, 0.6, 0.0),    // 4: Brassy (orange)
+        vec3(0.8, 0.0, 0.4)     // 5: Synth (red-purple)
+    );
+    vec3 baseColor = toneColors[int(tone)];
+    
+    // Brightness modulates intensity
+    float brightness = 0.5 + position.z * 0.5;
+    vColor = vec4(baseColor * brightness, 0.7);
+    
+    // Pass attributes to fragment shader
+    vAttack = attack;
+    vTone = tone;
+    vSampleIndex = sampleIndex;
+}
+```
+
+FRAGMENT SHADER (scatter_fragment.glsl)
+────────────────────────────────────────
+```glsl
+precision mediump float;
+
+varying vec4 vColor;
+varying float vSize;
+varying float vAttack;
+varying float vTone;
+varying float vSampleIndex;
+
+uniform int hoveredIndex;
+uniform int selectedIndex;
+uniform float time;
+
+void main() {
+    vec2 coord = gl_PointCoord - vec2(0.5);
+    float dist = length(coord);
+    
+    // Discard outside circle
+    if (dist > 0.5) discard;
+    
+    // Base circle with anti-aliasing
+    float alpha = 1.0 - smoothstep(0.45, 0.5, dist);
+    vec4 color = vColor;
+    
+    // Add border based on attack
+    float borderSize = vAttack * 0.15;  // 0.0 to 0.15
+    float borderStart = 0.35 - borderSize;
+    float borderEnd = 0.5;
+    
+    if (dist > borderStart && dist < borderEnd && vAttack > 0.2) {
+        float borderAlpha = smoothstep(borderStart, borderStart + 0.05, dist) *
+                           (1.0 - smoothstep(borderEnd - 0.05, borderEnd, dist));
+        color.rgb = mix(color.rgb, vec3(1.0), 0.5);  // Brighter border
+        alpha = max(alpha, borderAlpha);
+    }
+    
+    // Hover effect
+    if (int(vSampleIndex) == hoveredIndex) {
+        float glow = (1.0 - dist * 2.0) * 0.3;
+        color.rgb += vec3(glow);
+        alpha = 1.0;
+    }
+    
+    // Selection effect with pulsing
+    if (int(vSampleIndex) == selectedIndex) {
+        float pulse = 0.9 + 0.1 * sin(time * 3.14159);  // Pulsing 0.9-1.0
+        float glow = (1.0 - dist * 2.0) * 0.5 * pulse;
+        color.rgb += vec3(glow);
+        alpha = 1.0;
+    }
+    
+    gl_FragColor = vec4(color.rgb, color.a * alpha);
+}
+```
+
+FOG OVERLAY SHADER (fog_overlay.glsl)
+──────────────────────────────────────
+```glsl
+precision mediump float;
+
+uniform vec2 resolution;
+uniform sampler2D sceneTexture;
+
+void main() {
+    vec2 uv = gl_FragCoord.xy / resolution;
+    vec4 sceneColor = texture2D(sceneTexture, uv);
+    
+    // Calculate fog
+    float fogIntensity = 0.0;
+    vec3 fogColor = vec3(0.0);
+    
+    // Red fog (top - distorted zone)
+    if (uv.y > 0.7) {
+        fogIntensity = pow((uv.y - 0.7) / 0.3, 2.0);  // Non-linear falloff
+        fogColor = mix(vec3(0.54, 0.0, 0.0), vec3(1.0, 0.0, 0.0), fogIntensity);
+    }
+    // Blue fog (bottom - clean zone)
+    else if (uv.y < 0.3) {
+        fogIntensity = pow((0.3 - uv.y) / 0.3, 2.0);  // Non-linear falloff
+        fogColor = mix(vec3(0.0, 0.2, 0.4), vec3(0.0, 0.4, 1.0), fogIntensity);
+    }
+    
+    // Blend fog with scene
+    vec3 finalColor = mix(sceneColor.rgb, fogColor, fogIntensity * 0.4);
+    gl_FragColor = vec4(finalColor, 1.0);
+}
+```
+
+GRID BACKGROUND SHADER (grid.glsl)
+───────────────────────────────────
+```glsl
+precision mediump float;
+
+uniform vec2 resolution;
+uniform mat4 viewMatrix;
+
+void main() {
+    vec2 uv = gl_FragCoord.xy / resolution;
+    
+    // Create 3D grid with perspective
+    float gridSize = 0.05;
+    float lineWidth = 0.002;
+    
+    vec2 grid = abs(fract(uv / gridSize - 0.5) - 0.5) / fwidth(uv / gridSize);
+    float line = min(grid.x, grid.y);
+    
+    // Dark gray grid color
+    vec3 gridColor = vec3(0.1, 0.1, 0.1);  // #1A1A1A
+    float gridAlpha = 1.0 - min(line, 1.0);
+    
+    // Fade towards back (depth illusion)
+    float depth = uv.y;
+    gridAlpha *= (1.0 - depth * 0.5);
+    
+    gl_FragColor = vec4(gridColor, gridAlpha * 0.3);
+}
+```
+
+================================================================================
+                      9. SAMPLE DATA STRUCTURE
+================================================================================
+
+SAMPLE OBJECT (JavaScript in HISE)
+───────────────────────────────────
+```javascript
+const sampleData = [
+    {
+        name: "808 - Tyler",
+        path: "808/808 - Tyler.wav",
+        
+        // Position (0.0 to 1.0)
+        decay: 0.5,        // X-axis (short → long)
+        cleanness: 0.8,    // Y-axis (0.0=clean, 1.0=distorted) → 0.8=clean (low Y)
+        brightness: 0.6,   // Z-axis (size/intensity)
+        
+        // Visual encoding
+        attack: 0.2,       // Border (0.0=soft, 1.0=clicky)
+        tone: 0,           // Color hue (0=PureSub, 1=808, 2=Reese, 3=Guitar, 4=Brassy, 5=Synth)
+        
+        // Metadata
+        tags: ["Clean", "Warm", "Memphis", "Trap", "Sub Heavy"],
+        style: "Memphis",
+        genre: "Trap",
+        
+        // Internal
+        index: 0           // Unique sample ID
+    },
+    {
+        name: "808 - BNYX WTF",
+        path: "808/808 - BNYX WTF.wav",
+        
+        decay: 0.3,        // Short decay
+        cleanness: 0.1,    // Heavily distorted (low value = high distortion)
+        brightness: 0.8,   // Bright, high-end
+        
+        attack: 0.9,       // Clicky
+        tone: 4,           // Brassy
+        
+        tags: ["Distorted", "Clicky", "Brassy", "Short", "Bright", "Drill"],
+        style: "BNYX",
+        genre: "Drill",
+        
+        index: 1
+    },
+    {
+        name: "Synth bass - Reese's Pieces",
+        path: "Synth Bass/Synth bass - Reese's Pieces.wav",
+        
+        decay: 0.7,        // Long decay
+        cleanness: 0.5,    // Warm (mid-range)
+        brightness: 0.7,   // Medium-bright
+        
+        attack: 0.5,       // Medium attack
+        tone: 2,           // Reese
+        
+        tags: ["Warm", "Reese", "Long", "EDM", "Balanced"],
+        style: "Reese",
+        genre: "EDM",
+        
+        index: 2
+    }
+    // ... 141 more samples
+];
+
+// Filter categories definition
+const filterCategories = {
+    attack: ["Soft", "Medium", "Punchy", "Clicky", "With Kick", "No Kick"],
+    decay: ["Short", "Medium", "Long", "Infinite"],
+    texture: ["Clean", "Rumble", "Reese", "Distorted", "Gritty", "Metallic"],
+    style: ["Zay", "CTM", "Murda", "Lex", "Pi'erre", "Memphis", "Drill", "BNYX"],
+    frequency: ["Sub Heavy", "Balanced", "Bright", "Dark"]
+};
+```
+
+================================================================================
+                          10. ACCESSIBILITY
+================================================================================
+
+KEYBOARD NAVIGATION
+───────────────────
+  • Tab: Navigate between filters and interactive elements
+  • Shift+Tab: Navigate backwards
+  • Arrow Keys: Move between dots in scatter plot (next nearest)
+  • Enter: Select highlighted dot
+  • Space: Play/preview selected sample
+  • Escape: Clear all filters, deselect sample
+  • R: Random sample selection
+  • F: Focus filter search/input (if implemented)
+  • 1-6: Quick select tone category (1=Pure Sub, 6=Synth)
+  • +/-: Zoom in/out
+  • 0: Reset view (same as double-click)
+
+SCREEN READER SUPPORT
+─────────────────────
+  • ARIA labels for all interactive elements
+  • Sample information announced on selection:
+    "Selected: 808 - Tyler. Memphis style. Clean, warm. Attack: soft. Decay: medium."
+  • Filter state changes announced:
+    "Filter Clean activated. 42 samples match."
+  • Dot count announced when filtering:
+    "Showing 42 of 144 samples."
+  • Play button state:
+    "Play sample" / "Stop playback"
+
+VISUAL ACCESSIBILITY
+────────────────────
+  • High contrast between colors:
+    - Red vs black: 7:1+ contrast ratio
+    - White text on dark red: 4.5:1+ contrast ratio
+  • Selected state uses BOTH color AND glow (not color alone)
+  • Border thickness encodes information (tactile equivalent)
+  • Text labels for all critical information
+  • Legend explains visual encoding
+  • Tooltips provide textual information
+  • No information conveyed by color alone
+
+COLOR BLINDNESS CONSIDERATIONS
+───────────────────────────────
+  • Red-Green Deficiency (Protanopia/Deuteranopia):
+    ✅ High contrast maintained (red appears as yellow/brown)
+    ✅ Fog gradient still visible as light/dark zones
+    ✅ Border thickness provides non-color encoding
+    ✅ Size variation provides non-color encoding
+  
+  • Blue-Yellow Deficiency (Tritanopia):
+    ✅ Blue fog appears as cyan/green (still distinct)
+    ✅ Red fog unaffected
+    ✅ Contrast maintained
+  
+  • Monochromacy (Complete color blindness):
+    ✅ Size variation (brightness)
+    ✅ Border thickness (attack)
+    ✅ Position (decay, cleanness)
+    ✅ All information available without color
+
+MOTION SENSITIVITY
+──────────────────
+  • Pulsing animations can be disabled via setting
+  • Reduce motion mode: Static selection highlight instead of pulse
+  • Camera rotation capped at ±15° (prevents disorientation)
+  • Smooth easing on all animations (no jarring movements)
+  • User can disable fog effect if visually overwhelming
+
+FOCUS INDICATORS
+────────────────
+  • Keyboard focus: 2px white outline (#FFFFFF) on all interactive elements
+  • Focus visible on dots: White outline + slight glow
+  • Focus never obscured by other elements
+  • Skip to main content option (scatter plot viewport)
+
+================================================================================
+                    11. RESPONSIVE CONSIDERATIONS
+================================================================================
+
+MINIMUM SIZE: 800×600px
+───────────────────────
+  Adjustments:
+    • Scatter plot: 450px height (75%)
+    • Filter bar: Single row, horizontal scroll
+    • Details panel: Compact mode (tags hidden until hover)
+    • Legend: Hidden (show on button click)
+    • Grid: Less dense to improve performance
+
+DEFAULT SIZE: 1200×800px ✅ RECOMMENDED
+────────────────────────────────────────
+  • All elements visible as specified
+  • Optimal viewing experience
+  • Legend always visible
+  • Filter bar shows 7 filters
+
+LARGE SIZE: 1600×1000px
+───────────────────────
+  Adjustments:
+    • Scatter plot: 850px height (85%)
+    • Filter bar: Two rows, all 20+ filters visible
+    • Details panel: Expanded with waveform preview
+    • Legend: Larger, more detailed
+    • Dots: Slightly larger (12-20px range)
+
+SCALING STRATEGY
+────────────────
+  • Use percentage-based heights where possible
+  • Font sizes scale with viewport (min 10px, max 18px)
+  • Maintain aspect ratio of scatter plot
+  • Dots scale with viewport but maintain readability
+  • UI elements stack on very small screens
+
+================================================================================
+                        12. PERFORMANCE TARGETS
+================================================================================
+
+TARGET METRICS
+──────────────
+  • Framerate: 60fps sustained (16.67ms per frame)
+  • Dot rendering: < 2ms (144 dots)
+  • Fog overlay: < 1ms
+  • Grid rendering: < 1ms
+  • Interaction response: < 50ms
+  • Filter update: < 100ms
+  • Initial load: < 500ms
+  • Memory usage: < 50MB
+
+OPTIMIZATION STRATEGIES
+───────────────────────
+  • GPU instancing for dot rendering
+  • Pre-compiled shaders (cached)
+  • Efficient uniform updates (batch)
+  • Frustum culling (don't render off-screen dots)
+  • Level of detail (LOD): Reduce dot detail when zoomed out
+  • Lazy fog calculation (skip if not visible)
+  • Texture atlas for UI elements
+  • Minimize state changes in rendering loop
+
+================================================================================
+                          13. IMPLEMENTATION CHECKLIST
+================================================================================
+
+✅ PHASE 1: Core Scatter Plot (1-2 weeks)
+──────────────────────────────────────────
+  [ ] Set up 1200×800 ScriptPanel in HISE
+  [ ] Implement vertex shader with 3-axis positioning
+  [ ] Implement fragment shader with circular dots
+  [ ] Test with 10 dummy sample dots
+  [ ] Add perspective grid background
+  [ ] Verify 60fps with 144 dots
+
+✅ PHASE 2: Fog System (1 week)
+────────────────────────────────
+  [ ] Create fog overlay shader
+  [ ] Implement red fog gradient (Y > 0.7)
+  [ ] Implement blue fog gradient (Y < 0.3)
+  [ ] Test fog blending with dots
+  [ ] Optimize fog performance (< 1ms)
+
+✅ PHASE 3: Visual Encoding (1 week)
+─────────────────────────────────────
+  [ ] Implement tone-based color system (6 colors)
+  [ ] Add attack-based border rendering
+  [ ] Size variation for brightness (8-16px)
+  [ ] Test all encoding layers together
+  [ ] Create legend UI component
+
+✅ PHASE 4: Interaction (1 week)
+─────────────────────────────────
+  [ ] Mouse hover detection (with distance calculation)
+  [ ] Click selection callback
+  [ ] Tooltip system (CSS + positioning)
+  [ ] Camera rotation (drag to rotate)
+  [ ] Camera zoom (scroll wheel)
+  [ ] View reset (double-click)
+  [ ] Details panel integration
+
+✅ PHASE 5: Data & Filters (1 week)
+────────────────────────────────────
+  [ ] Create sample database with all 144 samples
+  [ ] Tag all samples with attributes
+  [ ] Implement filter logic (AND logic)
+  [ ] Filter bar UI (pill buttons)
+  [ ] Visual filtering animations (fade out)
+  [ ] Filter count display
+
+✅ PHASE 6: UI Components (1 week)
+───────────────────────────────────
+  [ ] Header bar (title, preset name, random button)
+  [ ] Filter bar (pill buttons + expand)
+  [ ] Details panel (name, tags, characteristics)
+  [ ] Play button (with audio preview)
+  [ ] Legend box
+  [ ] Expanded filter panel
+
+✅ PHASE 7: Polish & Optimize (1 week)
+───────────────────────────────────────
+  [ ] Performance profiling (ensure 60fps)
+  [ ] Accessibility features (keyboard nav, ARIA)
+  [ ] Cross-platform testing (macOS, Windows)
+  [ ] Memory leak checks
+  [ ] Edge cases (no samples, all filtered out)
+  [ ] Animation timing refinement
+  [ ] Visual adjustments based on testing
+
+TOTAL TIMELINE: 7-8 weeks
+
+================================================================================
+                          14. COLOR SPECIFICATIONS
+================================================================================
+
+PRIMARY COLORS
+──────────────
+  Background:     #0A0A0A (Near-black)
+  Panel BG:       #1A1A1A (Dark gray)
+  Primary Red:    #8B0000 (Dark blood red)
+  Accent Red:     #FF0000 (Bright red)
+  Hover Red:      #B30000 (Medium red)
+  Blue Fog:       #0066FF (Ice blue)
+  Blue Fog Dark:  #003380 (Dark blue)
+
+TEXT COLORS
+───────────
+  Primary Text:   #E0E0E0 (Light gray)
+  Secondary Text: #808080 (Medium gray)
+  Active Text:    #FFFFFF (White)
+  Disabled Text:  #404040 (Dark gray)
+
+TONE COLORS (DOT HUES)
+──────────────────────
+  Pure Sub:       #8B0000 (Dark red)
+  808 Classic:    #FF0000 (Blood red)
+  Reese:          #FF3300 (Red-orange)
+  Bass Guitar:    #FF6600 (Orange-red)
+  Brassy:         #FF9900 (Orange)
+  Synth:          #CC0066 (Red-purple)
+
+UTILITY COLORS
+──────────────
+  Dividers:       #2A2A2A (Subtle dark gray)
+  Grid Lines:     #1A1A1A (Very dark gray)
+  Focus Outline:  #FFFFFF (White)
+  Error:          #FF4444 (Bright red)
+  Success:        #00FF00 (Green - minimal use)
+
+================================================================================
+                            15. TYPOGRAPHY
+================================================================================
+
+FONT FAMILY
+───────────
+  Primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif
+  Monospace: "SF Mono", Monaco, "Courier New", monospace
+
+FONT SIZES
+──────────
+  Header Title:   18px Bold
+  Preset Name:    14px Medium
+  Sample Name:    16px Bold
+  Body Text:      12px Regular
+  Small Text:     11px Regular
+  Tags:           10px Regular
+  Legend:         10px Regular
+
+FONT WEIGHTS
+────────────
+  Light:   300 (minimal use)
+  Regular: 400 (body text)
+  Medium:  500 (emphasis)
+  Bold:    700 (headers, active states)
+
+LINE HEIGHT
+───────────
+  Headers:  1.2
+  Body:     1.5
+  Compact:  1.0 (tags, legend)
+
+================================================================================
+                              END OF SPECIFICATION
+================================================================================
+
+SUMMARY:
+────────
+✅ Full window (1200×800) - Scatter plot as dominant view (81%)
+✅ Y-axis = Clean (bottom) vs Distorted (top) with fog zones
+✅ Red fog (distorted) + Blue fog (clean) atmospheric environment
+✅ Multi-layered encoding: Position, Fog, Color, Size, Border
+✅ Attack → Border thickness
+✅ Tone/Style → Color hue (6 categories)
+✅ Brightness → Size (8-16px)
+✅ Complete interaction states (hover, selection, focus)
+✅ Comprehensive animations (selection, filter, zoom, rotate)
+✅ Full accessibility (keyboard nav, screen reader, color blind)
+✅ GLSL shaders for optimal performance (60fps target)
+✅ Responsive design (800px to 1600px+)
+
+This creates an intuitive, beautiful, and information-dense interface where
+users can instantly understand sample characteristics through visual cues,
+atmospheric fog, and multi-dimensional encoding.
+
+================================================================================
+                        DOCUMENT VERSION: 1.0 FINAL
+                           DATE: 2024
+================================================================================
+

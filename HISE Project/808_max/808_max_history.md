@@ -1,4 +1,4 @@
-## The Evolution and Impact of 808 Bass in Modern Music: From Technical Artifact to Cultural Phenomenon
+The Evolution and Impact of 808 Bass in Modern Music: From Technical Artifact to Cultural Phenomenon
 
 ### 1 Historical Origins and Technical Foundations
 - **The Roland TR-808 Revolution**: Introduced in 1980, the Roland TR-808 Rhythm Composer was initially a commercial failure due to its "unrealistic" synthetic drum sounds. However, its distinctive **analog bass drum**—generated through a sine wave oscillator with adjustable decay—became the blueprint for modern 808 bass. The machine's affordability ($1,200 upon release) made it accessible to underground producers after its discontinuation in 1983 .

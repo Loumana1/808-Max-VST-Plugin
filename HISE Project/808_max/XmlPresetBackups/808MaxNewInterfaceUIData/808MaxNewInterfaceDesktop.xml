@@ -44,8 +44,8 @@
       <Component type="ScriptedViewport" id="Viewport808Browser" x="30.0" y="70.0"
                  parentComponent="pnl808List" width="220.0" height="200.0" itemColour2="4294967295"
                  bgColour="4290720306" itemColour="4294967295" viewPositionY="1.0">
-        <Component type="ScriptPanel" id="pnl808ListViewort" x="140.0" y="-6998.0"
-                   width="200.0" height="4320" parentComponent="Viewport808Browser"
+        <Component type="ScriptPanel" id="pnl808ListViewort" x="366.0" y="-7062.0"
+                   width="200" height="4320" parentComponent="Viewport808Browser"
                    bgColour="1439283641"/>
       </Component>
       <Component type="ScriptLabel" id="lblHead808Selection" x="80.0" y="30.0"

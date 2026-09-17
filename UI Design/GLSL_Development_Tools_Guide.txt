@@ -1,0 +1,589 @@
+================================================================================
+              GLSL DEVELOPMENT TOOLS & WORKFLOW GUIDE
+                    For 808 MAX Scatter Plot Development
+================================================================================
+
+OVERVIEW: Tools needed to develop, test, and visualize GLSL shaders before
+integrating them into HISE for the 808 MAX scatter plot interface.
+
+================================================================================
+                    1. ONLINE GLSL EDITORS (RECOMMENDED ✅)
+================================================================================
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+A. SHADERTOY (Best for Rapid Prototyping) ⭐⭐⭐⭐⭐
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  URL: https://www.shadertoy.com
+
+  Pros:
+    ✅ Real-time preview (instant feedback)
+    ✅ Huge community library (learn from examples)
+    ✅ Built-in uniforms (mouse, time, resolution)
+    ✅ No installation required
+    ✅ Save and share shaders online
+    ✅ Performance metrics displayed
+    ✅ Multiple buffer support (for multi-pass rendering)
+  
+  Cons:
+    ⚠️ Fragment shader only (no vertex shader editor)
+    ⚠️ Slightly different syntax than standard GLSL
+    ⚠️ Requires internet connection
+  
+  Best For:
+    • Testing fog gradients
+    • Color mixing algorithms
+    • Circular dot rendering
+    • Glow effects
+    • Background grid patterns
+  
+  Quick Start:
+    1. Go to shadertoy.com
+    2. Click "New Shader"
+    3. Replace default code with your fragment shader
+    4. Press Alt+Enter to compile
+    5. See real-time result
+  
+  Example Usage:
+    void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+        vec2 uv = fragCoord / iResolution.xy;
+        
+        // Test red fog gradient
+        float fogIntensity = 0.0;
+        vec3 fogColor = vec3(0.0);
+        if (uv.y > 0.7) {
+            fogIntensity = (uv.y - 0.7) / 0.3;
+            fogColor = vec3(1.0, 0.0, 0.0);
+        }
+        
+        fragColor = vec4(fogColor, fogIntensity * 0.5);
+    }
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+B. GLSL SANDBOX ⭐⭐⭐⭐
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  URL: http://glslsandbox.com
+
+  Pros:
+    ✅ Simpler interface than Shadertoy
+    ✅ Standard GLSL syntax
+    ✅ Real-time preview
+    ✅ Good for beginners
+    ✅ Gallery of examples
+  
+  Cons:
+    ⚠️ Fragment shader only
+    ⚠️ Limited built-in uniforms
+  
+  Best For:
+    • Learning GLSL basics
+    • Quick color tests
+    • Simple gradients
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+C. THE BOOK OF SHADERS EDITOR ⭐⭐⭐⭐⭐
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  URL: https://thebookofshaders.com/edit.php
+
+  Pros:
+    ✅ Integrated with excellent learning resource
+    ✅ Clean, distraction-free interface
+    ✅ Real-time preview
+    ✅ Good for learning fundamentals
+    ✅ Chapter-specific examples
+  
+  Best For:
+    • Learning GLSL from scratch
+    • Understanding concepts (smoothstep, mix, etc.)
+    • Testing mathematical functions
+
+  Recommended Reading:
+    • Chapter 05: Drawing shapes (for circular dots)
+    • Chapter 06: Colors (for fog gradients)
+    • Chapter 08: 2D Matrices (for rotation)
+    • Chapter 10: Generative designs
+
+================================================================================
+                  2. DESKTOP APPLICATIONS (PROFESSIONAL)
+================================================================================
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+A. KODELIFE (HIGHLY RECOMMENDED for Full Development) ⭐⭐⭐⭐⭐
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  URL: https://hexler.net/kodelife
+  Platform: macOS, Windows, Linux
+  Price: FREE (Pro version $99, but free is sufficient)
+
+  Pros:
+    ✅ BOTH vertex AND fragment shader support
+    ✅ Real-time preview
+    ✅ Multiple buffers/passes
+    ✅ Import 3D models (test scatter plot)
+    ✅ Custom uniforms editor
+    ✅ Export videos/images
+    ✅ MIDI/OSC input (test interactivity)
+    ✅ Performance profiling
+    ✅ Code completion
+    ✅ Built-in examples
+  
+  Cons:
+    ⚠️ Requires installation
+    ⚠️ Learning curve for advanced features
+  
+  Best For:
+    • Full scatter plot development
+    • Testing vertex + fragment shaders together
+    • Simulating 3D point clouds
+    • Performance optimization
+    • Final integration testing before HISE
+  
+  Why This is the BEST Tool for 808 MAX:
+    • You can simulate the exact scatter plot setup
+    • Test both vertex (positioning) and fragment (rendering) shaders
+    • Custom uniforms match HISE's uniform system
+    • Export shader code directly to HISE
+  
+  Quick Setup:
+    1. Download from hexler.net/kodelife
+    2. Install and open
+    3. Create new project
+    4. Write vertex shader in "Vertex" tab
+    5. Write fragment shader in "Fragment" tab
+    6. See real-time 3D preview
+  
+  Workflow for 808 MAX:
+    1. Create point primitive setup (gl_Points)
+    2. Write vertex shader for 3D positioning
+    3. Write fragment shader for dot rendering
+    4. Test with mouse input uniforms
+    5. Export shaders to HISE
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+B. SHADERGRAPH (Visual Node Editor) ⭐⭐⭐
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Platform: Runs in Unity (game engine)
+  Price: FREE (requires Unity installation)
+
+  Pros:
+    ✅ Visual programming (no code for simple shaders)
+    ✅ Learn shader logic visually
+    ✅ Export to GLSL code
+  
+  Cons:
+    ⚠️ Requires Unity (large installation)
+    ⚠️ Overkill for simple shaders
+    ⚠️ Less direct control
+  
+  Best For:
+    • Visual learners
+    • Understanding shader data flow
+    • Prototyping complex effects
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+C. TOUCHDESIGNER ⭐⭐⭐⭐
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  URL: https://derivative.ca
+  Platform: macOS, Windows
+  Price: FREE (Commercial license $600)
+
+  Pros:
+    ✅ Professional visual development environment
+    ✅ Real-time rendering
+    ✅ GLSL support
+    ✅ Node-based workflow
+    ✅ MIDI/OSC integration (test interactivity)
+  
+  Cons:
+    ⚠️ Steep learning curve
+    ⚠️ Overkill for simple shader development
+  
+  Best For:
+    • Audio-visual artists already using TouchDesigner
+    • Complex multi-shader systems
+    • Live performance visuals
+
+================================================================================
+                      3. CODE EDITORS WITH GLSL SUPPORT
+================================================================================
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+A. VISUAL STUDIO CODE + GLSL EXTENSIONS ⭐⭐⭐⭐⭐
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  URL: https://code.visualstudio.com
+  Platform: macOS, Windows, Linux
+  Price: FREE
+
+  Required Extensions:
+    1. "Shader languages support for VS Code" by slevesque
+       - Syntax highlighting
+       - Error detection
+    
+    2. "glsl-canvas" by circledev
+       - Live preview in VS Code
+       - Real-time shader rendering
+    
+    3. "WebGL GLSL Editor" by raczzalan
+       - IntelliSense for GLSL
+       - Auto-completion
+  
+  Installation:
+    1. Open VS Code
+    2. Go to Extensions (⌘+Shift+X / Ctrl+Shift+X)
+    3. Search for each extension
+    4. Click Install
+  
+  Pros:
+    ✅ Your existing code editor
+    ✅ Syntax highlighting
+    ✅ Error detection
+    ✅ Live preview (with extensions)
+    ✅ Git integration
+    ✅ Free and lightweight
+  
+  Cons:
+    ⚠️ Not as visual as dedicated tools
+    ⚠️ Preview requires extensions
+  
+  Best For:
+    • Writing shader code
+    • Managing shader files
+    • Version control (Git)
+    • Quick edits
+
+  Workflow:
+    1. Write shader in .glsl file
+    2. Use glsl-canvas preview (Ctrl+Shift+P → "Show glslCanvas")
+    3. Edit and see changes in real-time
+    4. Export to HISE when ready
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+B. SUBLIME TEXT + GLSL PACKAGE ⭐⭐⭐⭐
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Similar to VS Code setup
+  Package: "GLSL Syntax Highlighting"
+
+================================================================================
+                    4. TESTING & DEBUGGING TOOLS
+================================================================================
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+A. RENDEROC (GPU Debugger) ⭐⭐⭐⭐
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  URL: https://renderdoc.org
+  Platform: Windows, Linux
+  Price: FREE
+
+  Pros:
+    ✅ Frame capture and analysis
+    ✅ See every GPU call
+    ✅ Debug shader performance
+    ✅ Inspect uniforms/attributes
+  
+  Best For:
+    • Advanced debugging
+    • Performance profiling
+    • Understanding GPU pipeline
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+B. BROWSER DEVTOOLS (Chrome/Firefox) ⭐⭐⭐⭐⭐
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Built into: Chrome, Firefox, Safari
+  Price: FREE (built-in)
+
+  Features:
+    ✅ WebGL Inspector extension
+    ✅ Console.log() for debugging
+    ✅ Performance profiling
+    ✅ Network monitoring
+  
+  Best For:
+    • Testing online editors (Shadertoy, etc.)
+    • Quick debugging
+    • Performance checks
+
+================================================================================
+                        5. LEARNING RESOURCES
+================================================================================
+
+GLSL FUNDAMENTALS
+─────────────────
+  📚 The Book of Shaders (FREE)
+     https://thebookofshaders.com
+     - Best beginner resource
+     - Interactive examples
+     - Covers all basics
+  
+  📚 LearnOpenGL - Shaders Chapter (FREE)
+     https://learnopengl.com/Getting-started/Shaders
+     - Technical depth
+     - GLSL syntax reference
+  
+  📺 The Art of Code (YouTube Channel)
+     https://www.youtube.com/c/TheArtofCodeIsCool
+     - Visual shader tutorials
+     - Shadertoy walkthroughs
+
+SCATTER PLOT SPECIFIC
+─────────────────────
+  📚 OpenGL Point Sprites Tutorial
+     https://learnopengl.com/In-Practice/2D-Game/Particles
+     - Point primitive rendering
+     - gl_PointSize, gl_PointCoord
+  
+  📚 Three.js Points Documentation
+     https://threejs.org/docs/#api/en/objects/Points
+     - 3D point cloud examples
+     - JavaScript reference (similar logic)
+
+GLSL REFERENCE
+──────────────
+  📚 Khronos GLSL Specification
+     https://www.khronos.org/opengl/wiki/Core_Language_(GLSL)
+     - Official reference
+     - All built-in functions
+  
+  📚 Shaderific GLSL Reference
+     http://www.shaderific.com/glsl
+     - Quick lookup
+     - Function examples
+
+================================================================================
+                  6. RECOMMENDED WORKFLOW FOR 808 MAX
+================================================================================
+
+PHASE 1: RAPID PROTOTYPING (Week 1)
+────────────────────────────────────
+  Tool: SHADERTOY
+  
+  Tasks:
+    ✅ Test fog gradients (red top, blue bottom)
+    ✅ Perfect circular dot rendering
+    ✅ Test color mixing (tone colors)
+    ✅ Glow effects
+    ✅ Border rendering
+  
+  Workflow:
+    1. Open Shadertoy
+    2. Create new shader
+    3. Test fog: if (uv.y > 0.7) { ... }
+    4. Test dot: length(gl_PointCoord - 0.5) < 0.5
+    5. Iterate rapidly with instant feedback
+    6. Save working code
+
+PHASE 2: FULL SHADER DEVELOPMENT (Weeks 2-3)
+─────────────────────────────────────────────
+  Tool: KODELIFE
+  
+  Tasks:
+    ✅ Write vertex shader (3D positioning)
+    ✅ Write fragment shader (dot rendering)
+    ✅ Test with point primitives
+    ✅ Simulate 144 sample dots
+    ✅ Test mouse interaction (uniforms)
+  
+  Workflow:
+    1. Open KodeLife
+    2. Create new project → Point Rendering
+    3. Vertex Shader tab: position transformation
+    4. Fragment Shader tab: dot rendering + border
+    5. Add custom uniforms (mouse, selectedIndex)
+    6. Test with dummy data array
+    7. Optimize performance
+
+PHASE 3: CODE MANAGEMENT (Weeks 3-4)
+─────────────────────────────────────
+  Tool: VS CODE
+  
+  Tasks:
+    ✅ Organize shader files
+    ✅ Add comments and documentation
+    ✅ Version control with Git
+    ✅ Prepare for HISE integration
+  
+  Workflow:
+    1. Create shader files:
+       - scatter_vertex.glsl
+       - scatter_fragment.glsl
+       - fog_overlay.glsl
+    2. Use VS Code extensions for syntax checking
+    3. Git commit iterations
+    4. Prepare HISE integration notes
+
+PHASE 4: HISE INTEGRATION (Weeks 4-5)
+──────────────────────────────────────
+  Tool: HISE
+  
+  Tasks:
+    ✅ Import shaders into HISE project
+    ✅ Create ScriptPanel with GLSL rendering
+    ✅ Connect sample data to uniforms
+    ✅ Test interaction callbacks
+  
+  Workflow:
+    1. Copy shader code to HISE project folder
+    2. Create ScriptPanel in HISE Interface.js
+    3. Load shaders: Panel.loadShader("vertex.glsl")
+    4. Set uniforms: Panel.setShaderValue()
+    5. Test in HISE with real sample data
+
+PHASE 5: POLISH & DEBUG (Week 6)
+─────────────────────────────────
+  Tool: HISE + Browser DevTools (if needed)
+  
+  Tasks:
+    ✅ Performance optimization
+    ✅ Cross-platform testing
+    ✅ Bug fixes
+    ✅ Final visual adjustments
+
+================================================================================
+                    7. MY RECOMMENDED SETUP FOR YOU
+================================================================================
+
+IMMEDIATE START (No Installation)
+─────────────────────────────────
+  1️⃣ SHADERTOY
+     - Open browser → shadertoy.com
+     - Start prototyping fog and dots TODAY
+     - 0 setup time, instant results
+  
+  Example to try RIGHT NOW:
+     https://www.shadertoy.com/new
+     Copy this starter code:
+     
+     void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+         vec2 uv = fragCoord / iResolution.xy;
+         
+         // Red fog test
+         vec3 color = vec3(0.04);  // Dark background
+         if (uv.y > 0.7) {
+             float fog = (uv.y - 0.7) / 0.3;
+             color = mix(color, vec3(1.0, 0.0, 0.0), fog * 0.4);
+         }
+         // Blue fog test
+         if (uv.y < 0.3) {
+             float fog = (0.3 - uv.y) / 0.3;
+             color = mix(color, vec3(0.0, 0.4, 1.0), fog * 0.4);
+         }
+         
+         fragColor = vec4(color, 1.0);
+     }
+
+PROFESSIONAL SETUP (1 Hour Installation)
+─────────────────────────────────────────
+  1️⃣ KODELIFE
+     - Download from hexler.net/kodelife (FREE)
+     - Install (5 minutes)
+     - Best tool for full development
+  
+  2️⃣ VS CODE + Extensions
+     - Download VS Code (free)
+     - Install GLSL extensions (10 minutes)
+     - For code management
+
+  3️⃣ Git (Version Control)
+     - Track shader iterations
+     - Save working versions
+
+LEARNING PATH (2-3 Days)
+─────────────────────────
+  Day 1: GLSL Basics
+    - The Book of Shaders (Chapters 1-6)
+    - Practice in Shadertoy
+  
+  Day 2: Point Rendering
+    - LearnOpenGL Point Sprites tutorial
+    - Test in KodeLife
+  
+  Day 3: Fog & Colors
+    - Implement fog gradients
+    - Test tone color system
+
+================================================================================
+                          8. QUICK START GUIDE
+================================================================================
+
+OPTION A: START IN 5 MINUTES (Shadertoy)
+─────────────────────────────────────────
+  1. Open https://www.shadertoy.com
+  2. Click "New Shader"
+  3. Test fog gradients (code above)
+  4. Iterate and experiment
+
+OPTION B: START IN 1 HOUR (KodeLife - Full Setup)
+──────────────────────────────────────────────────
+  1. Download KodeLife from hexler.net
+  2. Install and open
+  3. File → New
+  4. Select "Point Rendering" template
+  5. Write vertex shader (position dots)
+  6. Write fragment shader (render circular dots)
+  7. Add uniforms for mouse position
+  8. Test with dummy data
+
+================================================================================
+                            9. COST SUMMARY
+================================================================================
+
+COMPLETELY FREE OPTION:
+───────────────────────
+  • Shadertoy (online)
+  • GLSL Sandbox (online)
+  • The Book of Shaders Editor (online)
+  • KodeLife FREE version
+  • VS Code + Extensions
+  
+  Total Cost: $0
+  
+  ✅ This is SUFFICIENT for 808 MAX development!
+
+PROFESSIONAL OPTION:
+────────────────────
+  • KodeLife Pro ($99) - not necessary, free version is enough
+  • TouchDesigner (free for non-commercial)
+  
+  Total Cost: $0 (or $99 if you want KodeLife Pro features)
+
+================================================================================
+                            10. FINAL RECOMMENDATION
+================================================================================
+
+🎯 FOR IMMEDIATE PROTOTYPING:
+     Use SHADERTOY (free, no installation, instant results)
+     Perfect for testing fog, colors, and dot rendering
+
+🎯 FOR FULL DEVELOPMENT:
+     Use KODELIFE FREE (install once, use forever)
+     Essential for vertex + fragment shader development
+     Simulates exact scatter plot setup
+
+🎯 FOR CODE MANAGEMENT:
+     Use VS CODE + GLSL Extensions (free, lightweight)
+     Organize and version control your shaders
+
+🎯 FOR LEARNING:
+     The Book of Shaders (thebookofshaders.com)
+     Best beginner resource, interactive, free
+
+TIMELINE:
+─────────
+  • Install KodeLife: 5 minutes
+  • Learn GLSL basics: 2-3 days
+  • Develop fog system: 1 week
+  • Develop scatter plot: 2-3 weeks
+  • HISE integration: 1 week
+  • Total: 4-5 weeks to working prototype
+
+YOU CAN START TESTING FOG TODAY ON SHADERTOY! 🚀
+
+================================================================================
+                            END OF GUIDE
+================================================================================
+
+Next Steps:
+1. Open Shadertoy and test fog gradients
+2. Install KodeLife for full development
+3. Read The Book of Shaders (Chapters 1-6)
+4. Create first shader prototype this week
+
+You have everything you need. Let's build this! 🔴🔵
+

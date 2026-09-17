@@ -1,0 +1,228 @@
+========================================
+808 MAX - VIEW MODES GUIDE
+========================================
+Inspired by Algonaut Atlas Map Navigation
+========================================
+
+## OVERVIEW
+
+808 Max features 3 distinct view modes for browsing samples, each optimized for different workflows.
+Change between modes by modifying the VIEW_MODE constant in the GLSL shader (line 25).
+
+========================================
+MODE 0: GALAXY VIEW (Similarity-Based)
+========================================
+
+**Description:**
+Samples scattered freely across the 2D space based on sonic similarity.
+Similar sounds are positioned closer together.
+
+**Best For:**
+- Discovering similar samples
+- Exploring sonic relationships
+- Creative browsing
+- Finding alternatives to a selected sample
+
+**Visual:**
+- Random scatter across entire screen
+- No grid structure
+- Full depth variation (3D effect)
+- Color-coded by category
+
+**Usage:**
+- Hover near a sample you like to find similar ones
+- Click to select and see nearby alternatives
+- Great for "happy accidents" and discovery
+
+**Atlas Equivalent:** Galaxy View
+
+========================================
+MODE 1: GRID VIEW (Organized Layout)
+========================================
+
+**Description:**
+Samples arranged in a clean 10x10 grid for systematic browsing.
+Larger dots for easier selection.
+
+**Best For:**
+- Quick browsing through entire library
+- Systematic sample selection
+- When you know what category you want
+- Easier clicking/selection
+
+**Visual:**
+- Perfect 10x10 grid (100 samples)
+- Larger dots (1.5x size)
+- All at same depth (flat)
+- Still color-coded by category
+
+**Usage:**
+- Scan left-to-right, top-to-bottom
+- Colors help identify categories quickly
+- Easier to click on mobile/small screens
+- Great for methodical workflow
+
+**Atlas Equivalent:** Earth View
+
+========================================
+MODE 2: CLUSTER VIEW (Category Groups)
+========================================
+
+**Description:**
+Samples grouped into 4 clusters by category, with slight scatter within each cluster.
+
+**Best For:**
+- Category-focused browsing
+- Comparing samples within a category
+- Visual category separation
+- Learning sample characteristics
+
+**Visual:**
+- 4 distinct clusters (quadrants)
+- Bottom-Left: Blue (Clean/Sub)
+- Bottom-Right: Yellow (Warm/Mid)
+- Top-Left: Red (Distorted/Aggressive)
+- Top-Right: Purple (Synthetic/Bright)
+- 15% scatter within each cluster
+
+**Usage:**
+- Navigate to the cluster you want
+- Browse within that category
+- Easy to switch between categories visually
+- Great for focused sound selection
+
+**Atlas Equivalent:** Custom (unique to 808 Max)
+
+========================================
+CATEGORY COLOR CODING (All Modes)
+========================================
+
+All view modes use the same XO-inspired color palette:
+
+**#01A7FE (Picton Blue)**
+- Clean 808s
+- Sub basses
+- Minimal harmonics
+- Long decay
+
+**#E9B404 (Xanthous Yellow)**
+- Warm 808s
+- Mid-range presence
+- Analog character
+- Moderate distortion
+
+**#E51048 (Amaranth Red)**
+- Distorted 808s
+- Aggressive character
+- Short, punchy
+- Heavy harmonics
+
+**#CD59FE (Heliotrope Purple)**
+- Synthetic basses
+- Bright/crispy
+- Reese/Zay style
+- Digital character
+
+========================================
+INTERACTION (All Modes)
+========================================
+
+**Selection:**
+- Click on any dot to select it
+- Selected dot shows thin white circle (6x size)
+- Audio preview plays on selection
+
+**Hover:**
+- Hover over dots to preview (trigger on hover mode)
+- Sample info tooltip appears
+- Nearby samples highlight in Galaxy View
+
+**Keyboard:**
+- Arrow keys: Navigate between samples
+- Enter: Load selected sample
+- Space: Preview/stop audio
+- 1/2/3: Switch view modes
+
+========================================
+TECHNICAL DETAILS
+========================================
+
+**Grid View:**
+- Layout: 10 columns × 10 rows
+- Position: calculated as (col/9, row/9)
+- Depth: fixed at 0.5 (no 3D variation)
+- Dot size: 0.012 (larger than other modes)
+
+**Galaxy View:**
+- Position: pseudo-random using sine hash
+- Full XYZ variation for 3D effect
+- Depth affects opacity (far dots more transparent)
+- Dot size: 0.008
+
+**Cluster View:**
+- 4 cluster centers: (0.25, 0.25), (0.75, 0.25), (0.25, 0.75), (0.75, 0.75)
+- Scatter spread: 0.15 (15% of screen)
+- Category determines which cluster
+- Full Z-axis variation maintained
+
+========================================
+SWITCHING MODES IN CODE
+========================================
+
+In the GLSL file (01_basic_scatter_plot.glsl), change line 25:
+
+```glsl
+const int VIEW_MODE = 0;  // Galaxy View
+const int VIEW_MODE = 1;  // Grid View
+const int VIEW_MODE = 2;  // Cluster View
+```
+
+In the final HISE implementation, this will be controlled by:
+- UI button/toggle
+- Keyboard shortcut
+- MIDI CC
+- User preference (saved in preset)
+
+========================================
+FUTURE ENHANCEMENTS
+========================================
+
+**Planned Features:**
+- Smooth animated transitions between modes
+- Custom cluster positions (user-defined)
+- Hybrid modes (grid with similarity sorting)
+- Filter visualization (dim non-matching samples)
+- Search highlight overlay
+- Favorites layer (star overlay on favorites)
+- Multiple maps (save different arrangements)
+
+**Performance:**
+- All modes render at 60fps
+- No panning = better performance
+- Static layouts = easier caching
+- Suitable for 800+ samples
+
+========================================
+DESIGN PHILOSOPHY
+========================================
+
+**Why No Panning:**
+- Keeps all samples visible at once
+- Faster navigation (no scrolling)
+- Better for live performance
+- Clearer mental model
+- Mobile-friendly
+
+**Three Modes Cover All Workflows:**
+1. Discovery & Exploration → Galaxy View
+2. Quick & Systematic → Grid View
+3. Category-Focused → Cluster View
+
+**User Choice:**
+Different producers have different workflows.
+Multiple modes serve different needs without complexity.
+
+========================================
+END OF GUIDE
+========================================
+

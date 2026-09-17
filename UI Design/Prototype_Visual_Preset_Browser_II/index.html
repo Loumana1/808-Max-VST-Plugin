@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>808 Max - Visual Preset Browser II (Waveforms)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <h1>808 MAX</h1>
+            <div class="collection-selector">
+                <label>Collection:</label>
+                <select id="collectionSelect">
+                    <option value="808">808 Library</option>
+                </select>
+            </div>
+        </div>
+        <div class="header-right">
+            <button class="action-btn">Explore</button>
+            <button class="action-btn">Remix</button>
+            <button class="action-btn">Browse & Download</button>
+        </div>
+    </header>
+
+    <!-- Main Grid Container -->
+    <main class="grid-container" id="sampleGrid">
+        <!-- Samples will be dynamically inserted here -->
+        <div class="loading-message" id="loadingMessage">
+            Chargement des samples...
+        </div>
+    </main>
+    
+    <!-- Progress Bar -->
+    <div class="progress-container" id="progressContainer" style="display: none;">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-text" id="progressText">0%</div>
+    </div>
+
+    <!-- Filters Panel -->
+    <div class="filters-panel" id="filtersPanel">
+        <div class="filters-header">
+            <h3>Filtres</h3>
+            <button class="close-filters" id="closeFilters">×</button>
+        </div>
+        <div class="filters-content">
+            <!-- Search -->
+            <div class="filter-group">
+                <label>Recherche</label>
+                <input type="text" id="searchInput" placeholder="Nom du sample..." class="search-input">
+            </div>
+            
+            <!-- Aggressiveness -->
+            <div class="filter-group">
+                <label>Caractère</label>
+                <div class="filter-buttons">
+                    <button class="filter-tag" data-filter="aggressive" data-type="aggressiveness">Agressif</button>
+                    <button class="filter-tag" data-filter="clean" data-type="aggressiveness">Clean</button>
+                    <button class="filter-tag" data-filter="warm" data-type="aggressiveness">Warm</button>
+                </div>
+            </div>
+            
+            <!-- Decay -->
+            <div class="filter-group">
+                <label>Decay</label>
+                <div class="filter-buttons">
+                    <button class="filter-tag" data-filter="short" data-type="decay">Short</button>
+                    <button class="filter-tag" data-filter="medium" data-type="decay">Medium</button>
+                    <button class="filter-tag" data-filter="long" data-type="decay">Long</button>
+                </div>
+            </div>
+            
+            <!-- Attack -->
+            <div class="filter-group">
+                <label>Attack</label>
+                <div class="filter-buttons">
+                    <button class="filter-tag" data-filter="soft" data-type="attack">Soft</button>
+                    <button class="filter-tag" data-filter="medium" data-type="attack">Medium</button>
+                    <button class="filter-tag" data-filter="clicky" data-type="attack">Clicky</button>
+                </div>
+            </div>
+            
+            <!-- Brightness -->
+            <div class="filter-group">
+                <label>Brightness</label>
+                <div class="filter-buttons">
+                    <button class="filter-tag" data-filter="dark" data-type="brightness">Dark</button>
+                    <button class="filter-tag" data-filter="balanced" data-type="brightness">Balanced</button>
+                    <button class="filter-tag" data-filter="bright" data-type="brightness">Bright</button>
+                </div>
+            </div>
+            
+            <div class="filter-actions">
+                <button class="clear-all-filters" id="clearAllFilters">Effacer tout</button>
+                <div class="filter-count" id="filterCount">0 samples</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <button class="filter-btn" id="filtersBtn">Filters</button>
+        <div class="contextual-actions">
+            <button id="playBtn" disabled>Play in context</button>
+            <button id="loadBtn" disabled>Load into Plugin</button>
+            <button id="downloadBtn" disabled>Download</button>
+            <button id="viewMoreBtn" disabled>View more</button>
+        </div>
+    </footer>
+
+    <!-- Tooltip (appears on hover) -->
+    <div class="tooltip" id="tooltip"></div>
+
+    <script src="audio-processor.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
