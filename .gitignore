@@ -14,6 +14,14 @@ Exports/
 # HISE Project/**/Samples/
 # Audio Assets/
 
+# Prototype / local audio (keep untracked)
+*.wav
+*.aif
+*.aiff
+*.mp3
+*.flac
+UI Design/Prototype_Visual_Preset_Browser_II/assets/
+
 # Design sources
 *.psd
 *.psb
